@@ -2,16 +2,13 @@ package org.example;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
-
-import static java.lang.Character.*;
 
 public class ExprParser implements Parser{
     private ExprTokenizer tkz;
+    private static boolean isWhile=false;
+    private static boolean whileConCount=false;
 
     private StringBuilder s = new StringBuilder();
-    private boolean wLoop = false;
-    private StringBuilder wLoopStatement = new StringBuilder();
     ArithExprFactory arthFac = ArithExprFactory.instance();
     private HashMap<String, Double> identifiers = new HashMap<String, Double>();
     public ExprParser(ExprTokenizer tkz) {
@@ -20,10 +17,8 @@ public class ExprParser implements Parser{
 
     public void Plan() throws SyntaxError, LexicalError, EvalError, IOException {
         Statement();
-        System.out.println("p");
         while (tkz.hasNextToken()) {
             Statement();
-            System.out.println("p");
         }
         System.out.println("m"+identifiers.get("m"));
         System.out.println("n"+identifiers.get("n"));
@@ -36,14 +31,27 @@ public class ExprParser implements Parser{
     }
     private void WhileStatement() throws SyntaxError, LexicalError, EvalError, IOException {
         if (tkz.peek("while")){
-            wLoop = true;//
             tkz.consume("while");
+            isWhile = true;
             tkz.consume("(");
             Expr t = Expression();
             tkz.consume(")");
+            System.out.println(identifiers.get("m"));
+            whileConCount = true;
             for(int counter = 0 ; counter < 10000 && t.eval(identifiers)>0;counter++){
                 Statement();
+                System.out.println(identifiers.get("m"));
+                whileConCount = false;
+                isWhile = false;
+                //tkz.stepBack();
+                while(tkz.peek("(")) tkz.consume("(");
+                t = Expression();
+                System.out.println(identifiers.get("m"));
+                while(tkz.peek(")")) tkz.consume(")");
             }
+            tkz.resetWhile();
+            clearState();
+
         }
     }
     private void IfStatement() throws SyntaxError, LexicalError, EvalError, IOException {
@@ -68,34 +76,7 @@ public class ExprParser implements Parser{
                     }
                     else tkz.consume();
                 }
-                if(tkz.peek("{")){
-                    while(!(tkz.peek("}"))) tkz.consume();
-                    tkz.consume("}");
-                } else if (tkz.peek("done")||tkz.peek("relocate")||tkz.peek("opponent")) {
-                    tkz.consume();
-                } else if (tkz.peek("move")||tkz.peek("nearby")) {
-                    tkz.consume();
-                    tkz.consume();
-                } else if (tkz.peek("shoot")) {
-                    tkz.consume();
-                    tkz.consume();
-                    tkz.consume();
-                } else if (tkz.peek("invest")||tkz.peek("collect")) {
-                    tkz.consume();
-                    tkz.consume();
-                    while(tkz.peek("+")||tkz.peek("-")||tkz.peek("*")||tkz.peek("/")||tkz.peek("%")||tkz.peek("^")){
-                        tkz.consume();
-                        tkz.consume();
-                    }
-                }else if (identifiers.containsKey(tkz.peek())) {
-                    tkz.consume();
-                    tkz.consume();
-                    tkz.consume();
-                    while(tkz.peek("+")||tkz.peek("-")||tkz.peek("*")||tkz.peek("/")||tkz.peek("%")||tkz.peek("^")){
-                        tkz.consume();
-                        tkz.consume();
-                    }
-                }
+                clearState();
 
             }else{
                 while(true){
@@ -122,7 +103,10 @@ public class ExprParser implements Parser{
     private void BlockStatement() throws SyntaxError, LexicalError, EvalError, IOException {
         if (tkz.peek("{")) {
             tkz.consume("{");
-            while(!(tkz.peek("}")))Statement();
+            while(!(tkz.peek("}"))){
+                Statement();
+                System.out.println(identifiers.get("m"));
+            }
             tkz.consume("}");
         }
     }
@@ -224,21 +208,24 @@ public class ExprParser implements Parser{
     }
     private Expr Power() throws SyntaxError, LexicalError, EvalError, IOException {
         if(identifiers.containsKey(tkz.peek())){
-            Expr p = new IntLit(identifiers.get(tkz.peek()));
+            Expr p = new Lit(identifiers.get(tkz.peek()));
             tkz.consume();
             return p;
-        }else if(tkz.peek()=="(") {
+        }else if(isNumber(tkz.peek())) {
+            Expr p = new Lit(Integer.parseInt(tkz.consume()));
+            return p;
+        }else if(tkz.peek("(")) {
             tkz.consume();
             Expr p = Expression();
             tkz.consume(")");
             return p;
-        }else if(isNumber(tkz.peek())) {
-            Expr p = new IntLit(Integer.parseInt(tkz.consume()));
-            return p;
-        }else if(!(tkz.peek("collect")||tkz.peek("done")||tkz.peek("down")||tkz.peek("downleft")||tkz.peek("downright")||tkz.peek("else")||tkz.peek("if")||tkz.peek("invest")||tkz.peek("move")||tkz.peek("nearby")||tkz.peek("opponent")||tkz.peek("relocate")||tkz.peek("shoot")||tkz.peek("then")||tkz.peek("up")||tkz.peek("upleft")||tkz.peek("upright")||tkz.peek("while"))){
-            Expr p = new VarLit(tkz.consume());
-            return p;
-        }else{
+        }
+//        else if(!(tkz.peek("collect")||tkz.peek("done")||tkz.peek("down")||tkz.peek("downleft")||tkz.peek("downright")||tkz.peek("else")||tkz.peek("if")||tkz.peek("invest")||tkz.peek("move")||tkz.peek("nearby")||tkz.peek("opponent")||tkz.peek("relocate")||tkz.peek("shoot")||tkz.peek("then")||tkz.peek("up")||tkz.peek("upleft")||tkz.peek("upright")||tkz.peek("while"))){
+//            if(wLoop) wLoopStatement.append(tkz.peek());
+//            Expr p = new VarLit(tkz.consume());
+//            return p;
+//        }
+        else{
             Expr p = InfoExpression();
             return p;
         }
@@ -247,39 +234,39 @@ public class ExprParser implements Parser{
         if(tkz.peek("opponent")){
             tkz.consume("opponent");
             //int oppo = opponent()
-            Expr op =new IntLit(3);
+            Expr op =new Lit(3);
             return op;
         }else{
             tkz.consume("nearby");
             Expr t = Direction();
             //int near = nearby(t.eval);
-            Expr nb =new IntLit(1);
+            Expr nb =new Lit(1);
             return nb;
         }
     }
     private Expr Direction() throws SyntaxError, LexicalError, EvalError, IOException {
         if(tkz.peek("up")){
-            Expr e = new IntLit(1);
+            Expr e = new Lit(1);
             tkz.consume();
             return e;
         }else if(tkz.peek("down")){
-            Expr e = new IntLit(4);
+            Expr e = new Lit(4);
             tkz.consume();
             return e;
         }else if(tkz.peek("upleft")){
-            Expr e = new IntLit(6);
+            Expr e = new Lit(6);
             tkz.consume();
             return e;
         }else if(tkz.peek("upright")){
-            Expr e = new IntLit(2);
+            Expr e = new Lit(2);
             tkz.consume();
             return e;
         }else if(tkz.peek("downleft")){
-            Expr e = new IntLit(5);
+            Expr e = new Lit(5);
             tkz.consume();
             return e;
         }else if(tkz.peek("downright")){
-            Expr e = new IntLit(3);
+            Expr e = new Lit(3);
             tkz.consume();
             return e;
         }else{
@@ -287,7 +274,7 @@ public class ExprParser implements Parser{
         }
     }
 
-    public static boolean isNumber(String string) {
+    private static boolean isNumber(String string) {
         if(string == null || string.equals("")) {
             return false;
         }
@@ -296,6 +283,44 @@ public class ExprParser implements Parser{
             return true;
         } catch (NumberFormatException e) {
             return false;
+        }
+    }
+
+    public  static  boolean checkWhile(){
+        return isWhile;
+    }
+
+    public  static  boolean checkWhileCon(){
+        return whileConCount;
+    }
+    private void clearState() throws LexicalError, SyntaxError {
+        if(tkz.peek("{")){
+            while(!(tkz.peek("}"))) tkz.consume();
+            tkz.consume("}");
+        } else if (tkz.peek("done")||tkz.peek("relocate")||tkz.peek("opponent")) {
+            tkz.consume();
+        } else if (tkz.peek("move")||tkz.peek("nearby")) {
+            tkz.consume();
+            tkz.consume();
+        } else if (tkz.peek("shoot")) {
+            tkz.consume();
+            tkz.consume();
+            tkz.consume();
+        } else if (tkz.peek("invest")||tkz.peek("collect")) {
+            tkz.consume();
+            tkz.consume();
+            while(tkz.peek("+")||tkz.peek("-")||tkz.peek("*")||tkz.peek("/")||tkz.peek("%")||tkz.peek("^")){
+                tkz.consume();
+                tkz.consume();
+            }
+        }else if (identifiers.containsKey(tkz.peek())) {
+            tkz.consume();
+            tkz.consume();
+            tkz.consume();
+            while(tkz.peek("+")||tkz.peek("-")||tkz.peek("*")||tkz.peek("/")||tkz.peek("%")||tkz.peek("^")){
+                tkz.consume();
+                tkz.consume();
+            }
         }
     }
 

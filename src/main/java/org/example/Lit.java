@@ -2,9 +2,9 @@ package org.example;
 
 import java.util.Map;
 
-public class IntLit implements Expr{
+public class Lit implements Expr{
     private double val;
-    public IntLit(double val){
+    public Lit(double val){
         this.val =val;
     }
     @Override
