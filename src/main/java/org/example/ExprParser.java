@@ -7,7 +7,6 @@ public class ExprParser implements Parser{
     private ExprTokenizer tkz;
     private boolean isWhile = false;
     private StringBuilder whileStatement = new StringBuilder();
-    private StringBuilder whileCon = new StringBuilder();
     ArithExprFactory arthFac = ArithExprFactory.instance();
     private HashMap<String, Double> identifiers;
     public ExprParser(ExprTokenizer tkz,HashMap<String, Double> h) {
@@ -37,7 +36,6 @@ public class ExprParser implements Parser{
             Expr t = Expression();
             if(isWhile) whileStatement.append(")");
             tkz.consume(")");
-            Double cond = t.eval(identifiers);
             for(int counter = 0 ; counter < 10000 && t.eval(identifiers)>0;counter++){
                 isWhile = true;
                 Statement();
@@ -164,7 +162,7 @@ public class ExprParser implements Parser{
             //invest(i.eval());
         }
     }
-    private void MoveCommand() throws SyntaxError, LexicalError, EvalError, IOException {
+    private void MoveCommand() throws SyntaxError, LexicalError, IOException {
         if(tkz.peek("move")){
             if(isWhile) whileStatement.append("move");
             tkz.consume("move");
@@ -262,7 +260,7 @@ public class ExprParser implements Parser{
             return p;
         }
     }
-    private Expr InfoExpression() throws SyntaxError, LexicalError, EvalError, IOException {
+    private Expr InfoExpression() throws SyntaxError, LexicalError, IOException {
         if(tkz.peek("opponent")){
             if(isWhile) whileStatement.append("opponent");
             tkz.consume("opponent");
@@ -278,7 +276,7 @@ public class ExprParser implements Parser{
             return nb;
         }
     }
-    private Expr Direction() throws SyntaxError, LexicalError, EvalError, IOException {
+    private Expr Direction() throws SyntaxError, LexicalError, IOException {
         if(tkz.peek("up")){
             Expr e = new Lit(1);
             if(isWhile) whileStatement.append("up");
