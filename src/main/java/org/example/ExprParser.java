@@ -248,7 +248,8 @@ public class ExprParser implements Parser{
             return p;
         }else if(isNumber(tkz.peek())) {
             if(isWhile) whileStatement.append(tkz.peek());
-            Expr p = new Lit(Integer.parseInt(tkz.consume()));
+            String inb = tkz.consume();
+            Expr p = new Lit(Integer.parseInt(inb));
             return p;
         }else if(tkz.peek("(")) {
             if(isWhile) whileStatement.append("(");
