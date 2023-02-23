@@ -250,11 +250,6 @@ public class ExprParser implements Parser{
             tkz.consume(")");
             return p;
         }
-//        else if(!(tkz.peek("collect")||tkz.peek("done")||tkz.peek("down")||tkz.peek("downleft")||tkz.peek("downright")||tkz.peek("else")||tkz.peek("if")||tkz.peek("invest")||tkz.peek("move")||tkz.peek("nearby")||tkz.peek("opponent")||tkz.peek("relocate")||tkz.peek("shoot")||tkz.peek("then")||tkz.peek("up")||tkz.peek("upleft")||tkz.peek("upright")||tkz.peek("while"))){
-//            if(wLoop) wLoopStatement.append(tkz.peek());
-//            Expr p = new VarLit(tkz.consume());
-//            return p;
-//        }
         else{
             Expr p = InfoExpression();
             return p;
