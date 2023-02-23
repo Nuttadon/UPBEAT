@@ -56,6 +56,7 @@ public class ExprTokenizer implements Tokenizer{
         if (isLetter(c)) {
             s.append(c);
             for (pos++; pos < src.length() && isLetter(src.charAt(pos)); pos++){
+                if (s.toString().equals("collect")||s.toString().equals("done")||s.toString().equals("down")||s.toString().equals("downleft")||s.toString().equals("downright")||s.toString().equals("else")||s.toString().equals("if")||s.toString().equals("invest")||s.toString().equals("move")||s.toString().equals("nearby")||s.toString().equals("opponent")||s.toString().equals("relocate")||s.toString().equals("shoot")||s.toString().equals("then")||s.toString().equals("up")||s.toString().equals("upleft")||s.toString().equals("upright")||s.toString().equals("while")) break;
                 s.append(src.charAt(pos));
             }
         }

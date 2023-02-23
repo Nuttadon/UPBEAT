@@ -44,8 +44,6 @@ public class ExprParser implements Parser{
                 ExprParser p = new ExprParser(l,identifiers);
                 p.Plan();
             }
-//            clearState();
-
         }
     }
     private void IfStatement() throws SyntaxError, LexicalError, EvalError, IOException {
@@ -54,8 +52,8 @@ public class ExprParser implements Parser{
             if(isWhile) whileStatement.append("if");
             tkz.consume("if");
             ctfe++;
-            tkz.consume("(");
             if(isWhile) whileStatement.append("(");
+            tkz.consume("(");
             Expr t = Expression();
             if(isWhile) whileStatement.append(")");
             tkz.consume(")");
@@ -80,6 +78,10 @@ public class ExprParser implements Parser{
                     }
                 }
                 clearState();
+                while(tkz.peek("}")){
+                        if(isWhile) whileStatement.append(tkz.peek());
+                        tkz.consume("}");
+                }
 
             }else{
                 while(true){
@@ -115,11 +117,11 @@ public class ExprParser implements Parser{
         if (tkz.peek("{")) {
             if(isWhile) whileStatement.append("{");
             tkz.consume("{");
-            while(!(tkz.peek("}"))){
                 Statement();
+            while(tkz.peek("}")){
+                if(isWhile) whileStatement.append("}");
+                tkz.consume("}");
             }
-            if(isWhile) whileStatement.append("}");
-            tkz.consume("}");
         }
     }
     private void Command() throws SyntaxError, LexicalError, EvalError, IOException {
@@ -321,14 +323,14 @@ public class ExprParser implements Parser{
 
 
     private void clearState() throws LexicalError, SyntaxError {
-        if(tkz.peek("{")){
+            if(tkz.peek("{")){
             while(!(tkz.peek("}"))) {
                 if(isWhile) whileStatement.append(tkz.peek());
                 tkz.consume();
             }
             if(isWhile) whileStatement.append(tkz.peek());
             tkz.consume("}");
-        } else if (tkz.peek("done")||tkz.peek("relocate")||tkz.peek("opponent")) {
+        }else if (tkz.peek("done")||tkz.peek("relocate")||tkz.peek("opponent")) {
             if(isWhile) whileStatement.append(tkz.peek());
             tkz.consume();
         } else if (tkz.peek("move")||tkz.peek("nearby")) {

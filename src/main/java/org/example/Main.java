@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws LexicalError, SyntaxError, EvalError, IOException {
         HashMap<String, Double> h = new HashMap<>();
 //        ExprTokenizer t = new ExprTokenizer("m = 5^2 if(10-12)then if(m)then n = nearby up else {} else {n=65}");
-        ExprTokenizer t = new ExprTokenizer("m = (5^2) while((m)){m = m-5}");
+        ExprTokenizer t = new ExprTokenizer("m = (5^2) while(((m))) {if(m) then m=m-5 else shoot up 20}");
         ExprParser p = new ExprParser(t,h);
         p.Plan();
     }
