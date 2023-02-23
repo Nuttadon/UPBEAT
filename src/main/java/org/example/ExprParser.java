@@ -84,8 +84,8 @@ public class ExprParser implements Parser{
                 }
                 clearState();
                 while(tkz.peek("}")){
-                        if(isWhile) whileStatement.append(tkz.peek());
-                        tkz.consume("}");
+                    if(isWhile) whileStatement.append(tkz.peek());
+                    tkz.consume("}");
                 }
 
             }else{
@@ -126,7 +126,7 @@ public class ExprParser implements Parser{
 
             if(isWhile) whileStatement.append("}");
             tkz.consume("}");
-            }
+        }
 
 
     }
@@ -330,7 +330,7 @@ public class ExprParser implements Parser{
 
 
     private void clearState() throws LexicalError, SyntaxError {
-            if(tkz.peek("{")){
+        if(tkz.peek("{")){
             while(!(tkz.peek("}"))) {
                 if(isWhile) whileStatement.append(tkz.peek());
                 tkz.consume();
@@ -381,7 +381,6 @@ public class ExprParser implements Parser{
 
 
 }
-
 
 
 

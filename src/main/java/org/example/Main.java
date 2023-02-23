@@ -22,8 +22,8 @@ public class Main {
 //        ExprTokenizer t = new ExprTokenizer("m =5 if(3-4)then {} else{ collect 5 }"); // = expected
 //        ExprTokenizer t = new ExprTokenizer("m =5 if(1)then {invest m} else{}"); // = expected
 //        ExprTokenizer t = new ExprTokenizer("m =5 if(1)then {opponent} else{ collect 5 }"); // still not yet implement opponent
-          ExprTokenizer t = new ExprTokenizer("m = 1500 while(m){m = m-300}");
-          ExprParser p = new ExprParser(t,h);
+        ExprTokenizer t = new ExprTokenizer("m = 1500 while(m){m = m-300}");
+        ExprParser p = new ExprParser(t,h);
         p.Plan();
     }
 }
