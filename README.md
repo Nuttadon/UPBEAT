@@ -14,3 +14,7 @@ UPBEAT Group 6
   Ixac -> display and game interface
   BezTTTT -> class hierarchy
 
+3rd meeting -> 23/2/66 19:20 PM
+  Nuttadon -> fix and check parser and evaluator 
+  Ixac -> check and improve game interface
+  BezTTTT -> testing code and edit presentation
