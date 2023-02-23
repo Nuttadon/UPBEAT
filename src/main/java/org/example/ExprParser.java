@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class ExprParser implements Parser{
     private ExprTokenizer tkz;
     private boolean isWhile = false;
+    private int bc=0;
     private StringBuilder whileStatement = new StringBuilder();
     ArithExprFactory arthFac = ArithExprFactory.instance();
     private HashMap<String, Double> identifiers;
@@ -20,6 +21,7 @@ public class ExprParser implements Parser{
         while (tkz.hasNextToken()) {
             Statement();
         }
+        System.out.println(identifiers.get("m"));
     }
     private void Statement() throws SyntaxError, LexicalError, EvalError, IOException {
         WhileStatement();
@@ -36,14 +38,17 @@ public class ExprParser implements Parser{
             Expr t = Expression();
             if(isWhile) whileStatement.append(")");
             tkz.consume(")");
+            isWhile = true;
+            Statement();
+
+            System.out.println(whileStatement.toString());
+            isWhile = false;
             for(int counter = 0 ; counter < 10000 && t.eval(identifiers)>0;counter++){
-                isWhile = true;
-                Statement();
-                isWhile = false;
                 ExprTokenizer l = new ExprTokenizer(whileStatement.toString());
                 ExprParser p = new ExprParser(l,identifiers);
                 p.Plan();
             }
+            whileStatement = new StringBuilder();
         }
     }
     private void IfStatement() throws SyntaxError, LexicalError, EvalError, IOException {
@@ -117,12 +122,13 @@ public class ExprParser implements Parser{
         if (tkz.peek("{")) {
             if(isWhile) whileStatement.append("{");
             tkz.consume("{");
-                Statement();
-            while(tkz.peek("}")){
-                if(isWhile) whileStatement.append("}");
-                tkz.consume("}");
+            while(!(tkz.peek("}")))Statement();
+
+            if(isWhile) whileStatement.append("}");
+            tkz.consume("}");
             }
-        }
+
+
     }
     private void Command() throws SyntaxError, LexicalError, EvalError, IOException {
         ActionCommand();
@@ -169,7 +175,7 @@ public class ExprParser implements Parser{
             if(isWhile) whileStatement.append("move");
             tkz.consume("move");
             Expr d = Direction();
-            //move(d.eval());
+            //player.move(d.eval(identifiers));
         }
     }
     private void AssignmentStatement() throws SyntaxError, LexicalError, EvalError, IOException {
