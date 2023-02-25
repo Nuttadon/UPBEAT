@@ -44,11 +44,15 @@ public class ExprParser implements Parser{
                 isWhile = true;
                 Statement();
                 System.out.println(whileStatement.toString());
+                System.out.println(identifiers.get("m"));
+                System.out.println(identifiers.get("n"));
                 isWhile = false;
                 for(int counter = 0 ; counter < 10000 && t.eval(identifiers)>0;counter++){
                     ExprTokenizer l = new ExprTokenizer(whileStatement.toString());
                     ExprParser p = new ExprParser(l,identifiers);
                     p.Plan();
+                    System.out.println(identifiers.get("m"));
+                    System.out.println(identifiers.get("n"));
                 }
             }else {
                 clearState();
@@ -71,7 +75,6 @@ public class ExprParser implements Parser{
                 if(isWhile) whileStatement.append("then");
                 tkz.consume("then");
                 Statement();
-                System.out.println(identifiers.get("n"));
                 while((ctfe%2)!=0){
                     if(tkz.peek("else")) {
                         if(isWhile) whileStatement.append("else");
@@ -83,6 +86,7 @@ public class ExprParser implements Parser{
                         tkz.consume();
                         ctfe++;
                     }
+                    if((ctfe%2)==0)break;
                     else {
                         if(isWhile) whileStatement.append(tkz.peek());
                         tkz.consume();
@@ -121,7 +125,9 @@ public class ExprParser implements Parser{
         if (tkz.peek("{")) {
 //            if(isWhile) whileStatement.append("{");
             tkz.consume("{");
-            while(!(tkz.peek("}")))Statement();
+            for(int counter = 0 ; counter < 10000 && !(tkz.peek("}"));counter++){
+                Statement();
+            }
 //            if(isWhile) whileStatement.append("}");
             tkz.consume("}");
         }
@@ -332,10 +338,7 @@ public class ExprParser implements Parser{
 
     private void clearState() throws LexicalError, SyntaxError {
         if(tkz.peek("{")){
-            int bc=1;
             while(!(tkz.peek("}"))) {
-                if(tkz.peek("{")) bc++;
-                tkz.consume("}");bc++;
                 if(isWhile) whileStatement.append(tkz.peek());
                 tkz.consume();
             }
