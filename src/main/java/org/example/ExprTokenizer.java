@@ -50,7 +50,6 @@ public class ExprTokenizer implements Tokenizer{
         if (pos == src.length()) {
                 next = null;
                 return;
-
         }  // no more tokens
         char c = src.charAt(pos);
         if (isLetter(c)) {

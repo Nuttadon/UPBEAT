@@ -19,9 +19,11 @@ public class ExprParser implements Parser{
     public void Plan() throws SyntaxError, LexicalError, EvalError, IOException {
         Statement();
         while (tkz.hasNextToken()) {
+            if(tkz.peek("}")) tkz.consume();
             Statement();
         }
         System.out.println(identifiers.get("m"));
+        System.out.println(identifiers.get("n"));
     }
     private void Statement() throws SyntaxError, LexicalError, EvalError, IOException {
         WhileStatement();
@@ -38,17 +40,20 @@ public class ExprParser implements Parser{
             Expr t = Expression();
             if(isWhile) whileStatement.append(")");
             tkz.consume(")");
-            isWhile = true;
-            Statement();
-
-            System.out.println(whileStatement.toString());
-            isWhile = false;
-            for(int counter = 0 ; counter < 10000 && t.eval(identifiers)>0;counter++){
-                ExprTokenizer l = new ExprTokenizer(whileStatement.toString());
-                ExprParser p = new ExprParser(l,identifiers);
-                p.Plan();
+            if(t.eval(identifiers)>0){
+                isWhile = true;
+                Statement();
+                System.out.println(whileStatement.toString());
+                isWhile = false;
+                for(int counter = 0 ; counter < 10000 && t.eval(identifiers)>0;counter++){
+                    ExprTokenizer l = new ExprTokenizer(whileStatement.toString());
+                    ExprParser p = new ExprParser(l,identifiers);
+                    p.Plan();
+                }
+            }else {
+                clearState();
             }
-            whileStatement = new StringBuilder();
+
         }
     }
     private void IfStatement() throws SyntaxError, LexicalError, EvalError, IOException {
@@ -66,13 +71,14 @@ public class ExprParser implements Parser{
                 if(isWhile) whileStatement.append("then");
                 tkz.consume("then");
                 Statement();
+                System.out.println(identifiers.get("n"));
                 while((ctfe%2)!=0){
                     if(tkz.peek("else")) {
                         if(isWhile) whileStatement.append("else");
                         tkz.consume();
                         ctfe++;
                     }
-                    else if(tkz.peek("if")) {
+                    if(tkz.peek("if")) {
                         if(isWhile) whileStatement.append("if");
                         tkz.consume();
                         ctfe++;
@@ -83,11 +89,6 @@ public class ExprParser implements Parser{
                     }
                 }
                 clearState();
-                while(tkz.peek("}")){
-                    if(isWhile) whileStatement.append(tkz.peek());
-                    tkz.consume("}");
-                }
-
             }else{
                 while(true){
                     if(tkz.peek("else")) {
@@ -113,18 +114,15 @@ public class ExprParser implements Parser{
                 tkz.consume("else");
                 Statement();
             }
-
-
         }
     }
 
     private void BlockStatement() throws SyntaxError, LexicalError, EvalError, IOException {
         if (tkz.peek("{")) {
-            if(isWhile) whileStatement.append("{");
+//            if(isWhile) whileStatement.append("{");
             tkz.consume("{");
             while(!(tkz.peek("}")))Statement();
-
-            if(isWhile) whileStatement.append("}");
+//            if(isWhile) whileStatement.append("}");
             tkz.consume("}");
         }
 
@@ -135,14 +133,15 @@ public class ExprParser implements Parser{
         AssignmentStatement();
     }
     private void ActionCommand() throws SyntaxError, LexicalError, EvalError, IOException {
+        if(tkz.peek("done")){
+            if(isWhile) whileStatement.append("done");
+            tkz.consume("done");
+            //nextTurn();
+        }
         if(tkz.peek("relocate")){
             if(isWhile) whileStatement.append("relocate");
             tkz.consume("relocate");
             //setCityCenter();
-        }else if(tkz.peek("done")){
-            if(isWhile) whileStatement.append("done");
-            tkz.consume("done");
-            //nextTurn();
         }
         AttackCommand();
         RegionCommand();
@@ -163,7 +162,8 @@ public class ExprParser implements Parser{
             tkz.consume("collect");
             Expr i = Expression();
             //collect(i.eval());
-        }else if(tkz.peek("invest")){
+        }
+        if(tkz.peek("invest")){
             if(isWhile) whileStatement.append("invest");
             tkz.consume("invest");
             Expr i = Expression();
@@ -179,13 +179,14 @@ public class ExprParser implements Parser{
         }
     }
     private void AssignmentStatement() throws SyntaxError, LexicalError, EvalError, IOException {
-        if((!(tkz.peek("collect")||tkz.peek("done")||tkz.peek("down")||tkz.peek("downleft")||tkz.peek("downright")||tkz.peek("else")||tkz.peek("if")||tkz.peek("invest")||tkz.peek("move")||tkz.peek("nearby")||tkz.peek("opponent")||tkz.peek("relocate")||tkz.peek("shoot")||tkz.peek("then")||tkz.peek("up")||tkz.peek("upleft")||tkz.peek("upright")||tkz.peek("while")))&&tkz.hasNextToken()) {
+        if((!(tkz.peek("collect")||tkz.peek("done")||tkz.peek("down")||tkz.peek("downleft")||tkz.peek("downright")||tkz.peek("else")||tkz.peek("if")||tkz.peek("invest")||tkz.peek("move")||tkz.peek("nearby")||tkz.peek("opponent")||tkz.peek("relocate")||tkz.peek("shoot")||tkz.peek("then")||tkz.peek("up")||tkz.peek("upleft")||tkz.peek("upright")||tkz.peek("while")||tkz.peek("}")))&&tkz.hasNextToken()) {
             if(isWhile) whileStatement.append(tkz.peek());
             String va = tkz.consume();
             if(isWhile) whileStatement.append("=");
             tkz.consume("=");
             Expr v = Expression();
             identifiers.put(va, v.eval(identifiers));
+
         }
     }
     private Expr Expression() throws SyntaxError, LexicalError, EvalError, IOException {
@@ -331,7 +332,10 @@ public class ExprParser implements Parser{
 
     private void clearState() throws LexicalError, SyntaxError {
         if(tkz.peek("{")){
+            int bc=1;
             while(!(tkz.peek("}"))) {
+                if(tkz.peek("{")) bc++;
+                tkz.consume("}");bc++;
                 if(isWhile) whileStatement.append(tkz.peek());
                 tkz.consume();
             }
