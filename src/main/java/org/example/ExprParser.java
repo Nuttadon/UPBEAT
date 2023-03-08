@@ -8,6 +8,7 @@ public class ExprParser implements Parser{
     private boolean isWhile = false;
     private int bc=0;
     private StringBuilder whileStatement = new StringBuilder();
+    private StringBuilder s = new StringBuilder();
     ArithExprFactory arthFac = ArithExprFactory.instance();
     private HashMap<String, Double> identifiers;
     public ExprParser(ExprTokenizer tkz,HashMap<String, Double> h) {
@@ -17,7 +18,6 @@ public class ExprParser implements Parser{
     }
 
     public void Plan() throws SyntaxError, LexicalError, EvalError, IOException {
-        Statement();
         while (tkz.hasNextToken()) {
             if(tkz.peek("}")) tkz.consume();
             Statement();
@@ -243,7 +243,7 @@ public class ExprParser implements Parser{
         while(tkz.peek("^")){
             if(isWhile) whileStatement.append("^");
             tkz.consume();
-            f = arthFac.newArithExpr(f, "^", Power());
+            f = arthFac.newArithExpr(Power(), "^",f);
         }
         return f;
     }

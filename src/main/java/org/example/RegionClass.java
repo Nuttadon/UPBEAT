@@ -1,10 +1,10 @@
 package org.example;
 
 public class RegionClass implements Region{
-    //private Player owner;
-    //private Player CityCenter = null;
+    private Player owner;
+    private Player CityCenter ;
     private Boolean isP1CityCenter;
-    private Double curDeposit = 0.00;
+    private Double curDeposit;
     private Boolean hasOwner = false;
 
     @Override

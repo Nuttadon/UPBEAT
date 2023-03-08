@@ -20,7 +20,7 @@ public class BinaryArithExpr implements Expr{
         if (op.equals("*")) return lv * rv;
         if (op.equals("/")) return lv / rv;
         if (op.equals("%")) return lv % rv;
-        if (op.equals(("^"))) return Math.pow(lv,rv);
+        if (op.equals(("^"))) return Math.pow(rv,lv);
         throw new EvalError("unknown op: " + op);
     }
 
