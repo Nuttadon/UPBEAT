@@ -2,13 +2,15 @@ package org.example;
 
 public class RegionClass implements Region{
     private Player owner;
-    private Player cityCenter ;
+    private Player cityCenterOf ;
     private double curDeposit;
+    private double maxDeposit;
 
-    public RegionClass(){
+    public RegionClass(double maxDep){
         owner = null;
-        cityCenter = null;
+        cityCenterOf = null;
         curDeposit = 0;
+        this.maxDeposit = maxDep;
     }
 
     @Override
@@ -23,12 +25,12 @@ public class RegionClass implements Region{
 
     @Override
     public void freeCityCenter() {
-        if(cityCenter!=null) cityCenter=null;
+        if(cityCenterOf!=null) cityCenterOf=null;
     }
 
     @Override
     public void setAsCityCenter() {
-        if(owner!=null) cityCenter = owner;
+        if(owner!=null) cityCenterOf = owner;
     }
 
     @Override
@@ -43,12 +45,14 @@ public class RegionClass implements Region{
 
     @Override
     public double getDep() {
-        return curDeposit;
+        double d = curDeposit;
+        return d;
     }
 
 
     @Override
     public Player getOwner() {
-        return owner;
+        Player p = owner;
+        return p;
     }
 }
