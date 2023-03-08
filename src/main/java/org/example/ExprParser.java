@@ -7,6 +7,7 @@ public class ExprParser implements Parser{
     private ExprTokenizer tkz;
     private boolean isWhile = false;
     private int bc=0;
+    private boolean turnEnd = false;
     private PlayerClass parserOwner;
     private StringBuilder whileStatement = new StringBuilder();
     private StringBuilder s = new StringBuilder();
@@ -21,11 +22,14 @@ public class ExprParser implements Parser{
 
     public void Plan() throws SyntaxError, LexicalError, EvalError, IOException {
         while (tkz.hasNextToken()) {
-            if(tkz.peek("}")) tkz.consume();
-            Statement();
+            if(turnEnd) {
+                turnEnd = false;
+                break;
+            }else{
+                if(tkz.peek("}")) tkz.consume();
+                Statement();
+            }
         }
-        System.out.println(identifiers.get("m"));
-        System.out.println(identifiers.get("n"));
     }
     private void Statement() throws SyntaxError, LexicalError, EvalError, IOException {
         WhileStatement();
@@ -144,12 +148,15 @@ public class ExprParser implements Parser{
         if(tkz.peek("done")){
             if(isWhile) whileStatement.append("done");
             tkz.consume("done");
-            //nextTurn();
+            parserOwner.done();
+            turnEnd = true;
+            System.out.println("Turn End");
+            return;
         }
         if(tkz.peek("relocate")){
             if(isWhile) whileStatement.append("relocate");
             tkz.consume("relocate");
-            //setCityCenter();
+            parserOwner.relocate();
         }
         AttackCommand();
         RegionCommand();
@@ -175,7 +182,7 @@ public class ExprParser implements Parser{
             if(isWhile) whileStatement.append("invest");
             tkz.consume("invest");
             Expr i = Expression();
-            //invest(i.eval());
+            parserOwner.invest((int)i.eval(identifiers));
         }
     }
     private void MoveCommand() throws SyntaxError, LexicalError, IOException, EvalError {

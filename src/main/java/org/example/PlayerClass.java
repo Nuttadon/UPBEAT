@@ -112,8 +112,10 @@ public class PlayerClass implements Player{
         System.out.println(curCityCrewPos[0] +" "+ curCityCrewPos[1]);
         System.out.println(curCityCenterPos[0]+" "+curCityCenterPos[1]);
         StringBuilder sb = new StringBuilder();
-        HashMap<String, Double> m = new HashMap<>();
-        Path file = Paths.get("player1Plan.txt");
+        String player ;
+        if(name.equals("Player1")) player = "player1Plan.txt";
+        else player = "player2Plan.txt";
+        Path file = Paths.get(player);
         Charset charset = Charset.forName("UTF-8");
         try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
             String line = null;
@@ -121,9 +123,9 @@ public class PlayerClass implements Player{
                 sb.append(line);
             }
         }
-        ExprTokenizer tk = new ExprTokenizer(sb.toString());
-        ExprParser p = new ExprParser(tk,m,this);
-        p.Plan();
+        tok = new ExprTokenizer(sb.toString());
+        par = new ExprParser(tok,identifiers,this);
+        par.Plan();
     }
 
     @Override
@@ -138,75 +140,124 @@ public class PlayerClass implements Player{
 
     @Override
     public int done() {
+        t.nextTurn();
         return 0;
     }
 
     @Override
     public void relocate() {
-
+        Region[][] r = t.getRegions() ;
+        if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().getName().equals(name)) {
+            r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].freeCityCenter();
+            r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].setAsCityCenter();
+            curCityCenter = r[curCityCrewPos[0]-1][curCityCrewPos[1]-1];
+        }
     }
 
     @Override
     public void move(int direction) {
         if(direction==1){
-            if(curCityCrewPos[0]-1>0)curCityCrewPos[0]-=1;
+            if(curCityCrewPos[0]-1>0){
+                if(budget-1>=0){
+                    curCityCrewPos[0]-=1;
+                    budget-=1;
+                }
+            }
         }
         else if(direction==2){
             if(curCityCrewPos[1]%2==0){
                 if(curCityCrewPos[0]-1>0&&curCityCrewPos[1]+1<=t.getCols()){
-                    curCityCrewPos[0]-=1;
-                    curCityCrewPos[1]+=1;
+                    if(budget-1>=0){
+                        curCityCrewPos[0]-=1;
+                        curCityCrewPos[1]+=1;
+                        budget-=1;
+                    }
                 }
             }else{
                 if(curCityCrewPos[1]+1<=t.getCols()){
-                    curCityCrewPos[1]+=1;
+                    if(budget-1>=0){
+                        curCityCrewPos[1]+=1;
+                        budget-=1;
+                    }
                 }
             }
         }
         else if(direction==3){
             if(curCityCrewPos[1]%2==0){
                 if(curCityCrewPos[1]+1<=t.getCols()){
-                    curCityCrewPos[1]+=1;
+                    if(budget-1>=0){
+                        curCityCrewPos[1]+=1;
+                        budget-=1;
+                    }
                 }
             }else{
                 if(curCityCrewPos[0]+1<=t.getRows()&&curCityCrewPos[1]+1<=t.getCols()){
-                    curCityCrewPos[0]+=1;
-                    curCityCrewPos[1]+=1;
+                    if(budget-1>=0){
+                        curCityCrewPos[0]+=1;
+                        curCityCrewPos[1]+=1;
+                        budget-=1;
+                    }
                 }
             }
         }
         else if(direction==4){
-            if(curCityCenterPos[0]+1<t.getRows())curCityCrewPos[0]+=1;
+            if(curCityCenterPos[0]+1<t.getRows()){
+                if(budget-1>=0){
+                    curCityCrewPos[0]+=1;
+                    budget-=1;
+                }
+            }
         }
         else if(direction==5){
             if(curCityCrewPos[1]%2==0){
                 if(curCityCrewPos[1]-1>0){
-                    curCityCrewPos[1]-=1;
+                    if(budget-1>=0){
+                        curCityCrewPos[1]-=1;
+                        budget-=1;
+                    }
                 }
             }else{
                 if(curCityCrewPos[0]+1<=t.getRows()&&curCityCrewPos[1]-1>0){
-                    curCityCrewPos[0]+=1;
-                    curCityCrewPos[1]-=1;
+                    if(budget-1>=0){
+                        curCityCrewPos[0]+=1;
+                        curCityCrewPos[1]-=1;
+                        budget-=1;
+                    }
+
                 }
             }
         }
         else {
             if(curCityCrewPos[1]%2==0){
                 if(curCityCrewPos[1]-1>0&&curCityCrewPos[0]-1>0){
-                    curCityCrewPos[0]-=1;
-                    curCityCrewPos[1]-=1;
+                    if(budget-1>=0){
+                        curCityCrewPos[0]-=1;
+                        curCityCrewPos[1]-=1;
+                        budget-=1;
+                    }
                 }
             }else{
                 if(curCityCrewPos[1]-1>0){
-                    curCityCrewPos[1]-=1;
+                    if(budget-1>=0){
+                        curCityCrewPos[1]-=1;
+                        budget-=1;
+                    }
+
                 }
             }
         }
-        System.out.println("row = "+(curCityCrewPos[0])+"col = "+(curCityCrewPos[1]) );
     }
 
     @Override
     public void invest(int amount) {
+        Region[][] r = t.getRegions() ;
+        if(budget-amount-1>=0){
+            if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()==null) {
+                r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].deposit(amount);
+                r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].conquer(this);
+                budget-=(amount+1);
+            }
+        }
 
     }
 

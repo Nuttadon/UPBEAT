@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class TerritoryClass implements Territory{
-    private int curPlayerTurn;//0 = p1 1 = p2
+    private boolean curPlayerTurn;//0 = p1 1 = p2
     private int cols;
     private int rows;
     private int curTurn;
@@ -42,7 +42,7 @@ public class TerritoryClass implements Territory{
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
         }
-        curPlayerTurn = (int) ((Math.random()*10)%2);
+        curPlayerTurn = Math.random()<0.5;
         curTurn = 0;
         regions = new RegionClass[rows][cols];
         for(int i=0;i<rows;i++){
@@ -56,7 +56,7 @@ public class TerritoryClass implements Territory{
         players[1] = new PlayerClass("Player2",this);
     }
 
-    public int getTurn(){
+    public boolean getTurn(){
         return curPlayerTurn;
     }
     @Override
@@ -89,7 +89,8 @@ public class TerritoryClass implements Territory{
 
     @Override
     public void nextTurn() {
-
+        curPlayerTurn = !curPlayerTurn;
+        curTurn++;
     }
 
     @Override
