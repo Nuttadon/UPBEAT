@@ -68,15 +68,15 @@ public class PlayerClass implements Player{
         this.t = t;
         RegionClass[][] r = t.getRegions();
         do{
-            curCityCenterPos[0] = (int) ((Math.random()*100)%t.getRows());
+            curCityCenterPos[0] = (int) (((Math.random()*100)%t.getRows())+1);
 //            System.out.println("row = "+curCityCenterPos[0]+" ");
-            curCityCenterPos[1] = (int) ((Math.random()*100)%t.getCols());
+            curCityCenterPos[1] = (int) (((Math.random()*100)%t.getCols())+1);
 //            System.out.print("col = "+curCityCenterPos[1]);
-            curCityCenter = r[curCityCenterPos[0]][curCityCenterPos[1]];
+            curCityCenter = r[curCityCenterPos[0]-1][curCityCenterPos[1]-1];
         }while(curCityCenter.getOwner()!=null);
-        r[curCityCenterPos[0]][curCityCenterPos[1]].conquer(this);
-        r[curCityCenterPos[0]][curCityCenterPos[1]].setAsCityCenter();
-        r[curCityCenterPos[0]][curCityCenterPos[1]].deposit(initCenterDep);
+        r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].conquer(this);
+        r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].setAsCityCenter();
+        r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].deposit(initCenterDep);
     }
     @Override
     public String getName(){
@@ -107,9 +107,10 @@ public class PlayerClass implements Player{
     }
     @Override
     public void startPlan() throws IOException, LexicalError, SyntaxError, EvalError {
-        curCityCrewPos[0] = curCityCenterPos[0];
-        curCityCrewPos[1] = curCityCenterPos[1];
-        System.out.println("row = "+(curCityCrewPos[0]+1)+"col = "+(curCityCrewPos[1]+1) );
+        curCityCrewPos[0] = t.getRegions()[curCityCenterPos[0]-1][curCityCenterPos[1]-1].getY();
+        curCityCrewPos[1] = t.getRegions()[curCityCenterPos[0]-1][curCityCenterPos[1]-1].getX();
+        System.out.println(curCityCrewPos[0] +" "+ curCityCrewPos[1]);
+        System.out.println(curCityCenterPos[0]+" "+curCityCenterPos[1]);
         StringBuilder sb = new StringBuilder();
         HashMap<String, Double> m = new HashMap<>();
         Path file = Paths.get("player1Plan.txt");
@@ -148,23 +149,60 @@ public class PlayerClass implements Player{
     @Override
     public void move(int direction) {
         if(direction==1){
-            curCityCrewPos[0]-=1;
+            if(curCityCrewPos[0]-1>0)curCityCrewPos[0]-=1;
         }
         else if(direction==2){
-
+            if(curCityCrewPos[1]%2==0){
+                if(curCityCrewPos[0]-1>0&&curCityCrewPos[1]+1<=t.getCols()){
+                    curCityCrewPos[0]-=1;
+                    curCityCrewPos[1]+=1;
+                }
+            }else{
+                if(curCityCrewPos[1]+1<=t.getCols()){
+                    curCityCrewPos[1]+=1;
+                }
+            }
         }
         else if(direction==3){
+            if(curCityCrewPos[1]%2==0){
+                if(curCityCrewPos[1]+1<=t.getCols()){
+                    curCityCrewPos[1]+=1;
+                }
+            }else{
+                if(curCityCrewPos[0]+1<=t.getRows()&&curCityCrewPos[1]+1<=t.getCols()){
+                    curCityCrewPos[0]+=1;
+                    curCityCrewPos[1]+=1;
+                }
+            }
         }
         else if(direction==4){
-            curCityCrewPos[0]+=1;
+            if(curCityCenterPos[0]+1<t.getRows())curCityCrewPos[0]+=1;
         }
         else if(direction==5){
-
+            if(curCityCrewPos[1]%2==0){
+                if(curCityCrewPos[1]-1>0){
+                    curCityCrewPos[1]-=1;
+                }
+            }else{
+                if(curCityCrewPos[0]+1<=t.getRows()&&curCityCrewPos[1]-1>0){
+                    curCityCrewPos[0]+=1;
+                    curCityCrewPos[1]-=1;
+                }
+            }
         }
         else {
-
+            if(curCityCrewPos[1]%2==0){
+                if(curCityCrewPos[1]-1>0&&curCityCrewPos[0]-1>0){
+                    curCityCrewPos[0]-=1;
+                    curCityCrewPos[1]-=1;
+                }
+            }else{
+                if(curCityCrewPos[1]-1>0){
+                    curCityCrewPos[1]-=1;
+                }
+            }
         }
-        System.out.println("row = "+(curCityCrewPos[0]+1)+"col = "+(curCityCrewPos[1]+1) );
+        System.out.println("row = "+(curCityCrewPos[0])+"col = "+(curCityCrewPos[1]) );
     }
 
     @Override

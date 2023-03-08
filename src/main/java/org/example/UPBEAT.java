@@ -8,6 +8,7 @@ public class UPBEAT {
         Player[] p = t.getPlayers();
 //        p[0].initPlan();
 //        p[1].initPlan();
+        System.out.println("ssss");
         p[0].startPlan();
     }
 }

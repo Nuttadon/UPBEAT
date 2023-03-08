@@ -47,7 +47,7 @@ public class TerritoryClass implements Territory{
         regions = new RegionClass[rows][cols];
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
-                regions[i][j] = new RegionClass(maxDeposit);
+                regions[i][j] = new RegionClass(maxDeposit,j+1,i+1);
 //                System.out.print((j+1)+" ");
             }
 //            System.out.println();
