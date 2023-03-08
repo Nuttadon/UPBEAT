@@ -1,5 +1,5 @@
-col=20
-row=15
+col=15
+row=7
 init_plan_min=5
 init_plan_sec=0
 init_budget=10000

@@ -7,14 +7,16 @@ public class ExprParser implements Parser{
     private ExprTokenizer tkz;
     private boolean isWhile = false;
     private int bc=0;
+    private PlayerClass parserOwner;
     private StringBuilder whileStatement = new StringBuilder();
     private StringBuilder s = new StringBuilder();
     ArithExprFactory arthFac = ArithExprFactory.instance();
     private HashMap<String, Double> identifiers;
-    public ExprParser(ExprTokenizer tkz,HashMap<String, Double> h) {
+    public ExprParser(ExprTokenizer tkz,HashMap<String, Double> h,PlayerClass p) {
 
         this.tkz = tkz;
         this.identifiers = h;
+        this.parserOwner = p;
     }
 
     public void Plan() throws SyntaxError, LexicalError, EvalError, IOException {
@@ -49,7 +51,7 @@ public class ExprParser implements Parser{
                 isWhile = false;
                 for(int counter = 0 ; counter < 10000 && t.eval(identifiers)>0;counter++){
                     ExprTokenizer l = new ExprTokenizer(whileStatement.toString());
-                    ExprParser p = new ExprParser(l,identifiers);
+                    ExprParser p = new ExprParser(l,identifiers,parserOwner);
                     p.Plan();
                     System.out.println(identifiers.get("m"));
                     System.out.println(identifiers.get("n"));
@@ -176,12 +178,12 @@ public class ExprParser implements Parser{
             //invest(i.eval());
         }
     }
-    private void MoveCommand() throws SyntaxError, LexicalError, IOException {
+    private void MoveCommand() throws SyntaxError, LexicalError, IOException, EvalError {
         if(tkz.peek("move")){
             if(isWhile) whileStatement.append("move");
             tkz.consume("move");
             Expr d = Direction();
-            //player.move(d.eval(identifiers));
+            parserOwner.move((int) d.eval(identifiers));
         }
     }
     private void AssignmentStatement() throws SyntaxError, LexicalError, EvalError, IOException {

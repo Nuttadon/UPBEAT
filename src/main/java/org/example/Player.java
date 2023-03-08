@@ -1,5 +1,7 @@
 package org.example;
 
+import java.io.IOException;
+
 public interface Player {
     public int opponent();
     public int nearby(int direction);
@@ -10,4 +12,8 @@ public interface Player {
     public void collect(int amount);
     public void shoot(int damage,int direction);
     public void plan();
+    public String getName();
+    public boolean getWin();
+    public void initPlan();
+    public void startPlan() throws IOException, LexicalError, SyntaxError, EvalError;
 }

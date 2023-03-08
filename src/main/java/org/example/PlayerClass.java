@@ -1,12 +1,14 @@
 package org.example;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class PlayerClass implements Player{
     private String name;
@@ -63,6 +65,7 @@ public class PlayerClass implements Player{
         firstTurn = true;
         win = false;
         this.name = name;
+        this.t = t;
         RegionClass[][] r = t.getRegions();
         do{
             curCityCenterPos[0] = (int) ((Math.random()*100)%t.getRows());
@@ -75,14 +78,53 @@ public class PlayerClass implements Player{
         r[curCityCenterPos[0]][curCityCenterPos[1]].setAsCityCenter();
         r[curCityCenterPos[0]][curCityCenterPos[1]].deposit(initCenterDep);
     }
+    @Override
     public String getName(){
         String n = name;
         return n;
     }
+    @Override
     public boolean getWin(){
         boolean w = win;
         return w;
     }
+    @Override
+    public void initPlan(){
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println(name+" enter your initial plan :");
+        String s = keyboard.nextLine();
+        System.out.println(s);
+        String player ;
+        if(name.equals("Player1")) player = "player1Plan.txt";
+        else player = "player2Plan.txt";
+        Path file2 = Paths.get(player);  // path string
+        Charset charset = Charset.forName("UTF-8");
+        try (BufferedWriter writer = Files.newBufferedWriter(file2, charset)) {
+                writer.write(s, 0, s.length());
+        } catch (IOException x) {
+            System.err.format("IOException: %s%n", x);
+        }
+    }
+    @Override
+    public void startPlan() throws IOException, LexicalError, SyntaxError, EvalError {
+        curCityCrewPos[0] = curCityCenterPos[0];
+        curCityCrewPos[1] = curCityCenterPos[1];
+        System.out.println("row = "+(curCityCrewPos[0]+1)+"col = "+(curCityCrewPos[1]+1) );
+        StringBuilder sb = new StringBuilder();
+        HashMap<String, Double> m = new HashMap<>();
+        Path file = Paths.get("player1Plan.txt");
+        Charset charset = Charset.forName("UTF-8");
+        try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+        }
+        ExprTokenizer tk = new ExprTokenizer(sb.toString());
+        ExprParser p = new ExprParser(tk,m,this);
+        p.Plan();
+    }
+
     @Override
     public int opponent() {
         return 0;
@@ -105,7 +147,24 @@ public class PlayerClass implements Player{
 
     @Override
     public void move(int direction) {
+        if(direction==1){
+            curCityCrewPos[0]-=1;
+        }
+        else if(direction==2){
 
+        }
+        else if(direction==3){
+        }
+        else if(direction==4){
+            curCityCrewPos[0]+=1;
+        }
+        else if(direction==5){
+
+        }
+        else {
+
+        }
+        System.out.println("row = "+(curCityCrewPos[0]+1)+"col = "+(curCityCrewPos[1]+1) );
     }
 
     @Override

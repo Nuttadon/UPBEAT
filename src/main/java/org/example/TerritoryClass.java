@@ -56,20 +56,27 @@ public class TerritoryClass implements Territory{
         players[1] = new PlayerClass("Player2",this);
     }
 
+    public int getTurn(){
+        return curPlayerTurn;
+    }
+    @Override
     public int getRows(){
         int r = rows;
         return r;
     }
-
+    @Override
     public int getCols(){
         int c = cols;
         return  c;
     }
-
+    @Override
     public RegionClass[][] getRegions(){
         return regions;
     }
-
+    @Override
+    public PlayerClass[] getPlayers(){
+        return players;
+    }
     @Override
     public void winCheck() {
         if(players[0].getWin()) {
