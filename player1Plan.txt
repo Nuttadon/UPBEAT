@@ -1,1 +1,1 @@
-move up move up done move down move down
+m=opponent

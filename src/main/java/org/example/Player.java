@@ -5,7 +5,7 @@ import java.io.IOException;
 public interface Player {
     public int opponent();
     public int nearby(int direction);
-    public int done();
+    public void done();
     public void relocate();
     public void move(int direction);
     public void invest(int amount);

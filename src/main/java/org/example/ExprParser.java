@@ -157,6 +157,7 @@ public class ExprParser implements Parser{
             if(isWhile) whileStatement.append("relocate");
             tkz.consume("relocate");
             parserOwner.relocate();
+            return;
         }
         AttackCommand();
         RegionCommand();
@@ -176,7 +177,7 @@ public class ExprParser implements Parser{
             if(isWhile) whileStatement.append("collect");
             tkz.consume("collect");
             Expr i = Expression();
-            //collect(i.eval());
+            parserOwner.collect((int)i.eval(identifiers));
         }
         if(tkz.peek("invest")){
             if(isWhile) whileStatement.append("invest");
@@ -280,12 +281,13 @@ public class ExprParser implements Parser{
             return p;
         }
     }
-    private Expr InfoExpression() throws SyntaxError, LexicalError, IOException {
+    private Expr InfoExpression() throws SyntaxError, LexicalError, IOException, EvalError {
         if(tkz.peek("opponent")){
             if(isWhile) whileStatement.append("opponent");
             tkz.consume("opponent");
-            //int oppo = opponent()
-            Expr op =new Lit(3);
+            int opponent = parserOwner.opponent();
+            System.out.println(opponent);
+            Expr op =new Lit(opponent);
             return op;
         }else{
             if(isWhile) whileStatement.append("nearby");

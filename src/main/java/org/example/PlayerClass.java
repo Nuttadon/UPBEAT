@@ -69,9 +69,9 @@ public class PlayerClass implements Player{
         RegionClass[][] r = t.getRegions();
         do{
             curCityCenterPos[0] = (int) (((Math.random()*100)%t.getRows())+1);
-//            System.out.println("row = "+curCityCenterPos[0]+" ");
+            System.out.print("row = "+curCityCenterPos[0]+" ");
             curCityCenterPos[1] = (int) (((Math.random()*100)%t.getCols())+1);
-//            System.out.print("col = "+curCityCenterPos[1]);
+            System.out.println("col = "+curCityCenterPos[1]);
             curCityCenter = r[curCityCenterPos[0]-1][curCityCenterPos[1]-1];
         }while(curCityCenter.getOwner()!=null);
         r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].conquer(this);
@@ -109,8 +109,6 @@ public class PlayerClass implements Player{
     public void startPlan() throws IOException, LexicalError, SyntaxError, EvalError {
         curCityCrewPos[0] = t.getRegions()[curCityCenterPos[0]-1][curCityCenterPos[1]-1].getY();
         curCityCrewPos[1] = t.getRegions()[curCityCenterPos[0]-1][curCityCenterPos[1]-1].getX();
-        System.out.println(curCityCrewPos[0] +" "+ curCityCrewPos[1]);
-        System.out.println(curCityCenterPos[0]+" "+curCityCenterPos[1]);
         StringBuilder sb = new StringBuilder();
         String player ;
         if(name.equals("Player1")) player = "player1Plan.txt";
@@ -130,7 +128,112 @@ public class PlayerClass implements Player{
 
     @Override
     public int opponent() {
-        return 0;
+        Region[][] r = t.getRegions() ;
+        int distance = 0;
+        int direction = 0;
+        StringBuilder sb = new StringBuilder();
+        int crewPos0 = curCityCrewPos[0];
+        int crewPos1 = curCityCrewPos[1];
+        //up
+        int dis = 0;
+        while(true){
+            if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                distance = dis;
+                dis =0;
+                direction=1;
+                break;
+            }
+            if(curCityCrewPos[0]==1) break;
+            move(1);
+            dis++;
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        dis =0;
+        while(true){
+            if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                if(distance<=dis) {
+                    distance = dis;
+                    dis=0;
+                    direction=2;
+                }
+                break;
+            }
+            if(curCityCrewPos[0]==1||curCityCrewPos[1]==t.getCols()) break;
+            move(2);
+            dis++;
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        dis =0;
+        while(true){
+            if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                if(distance<=dis) {
+                    distance = dis;
+                    dis=0;
+                    direction=3;
+                }
+                break;
+            }
+            if(curCityCrewPos[0]==t.getRows()||curCityCrewPos[1]==t.getCols()) break;
+            move(3);
+            dis++;
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        dis =0;
+        while(true){
+            if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                if(distance<=dis) {
+                    distance = dis;
+                    dis=0;
+                    direction=4;
+                }
+                break;
+            }
+            if(curCityCrewPos[0]==t.getRows()) break;
+            move(4);
+            dis++;
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        dis =0;
+        while(true){
+            if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                if(distance<=dis) {
+                    distance = dis;
+                    dis=0;
+                    direction=5;
+                }
+                break;
+            }
+            if(curCityCrewPos[0]==t.getRows()||curCityCrewPos[1]==1) break;
+            move(5);
+            dis++;
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        dis =0;
+        while(true){
+            if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                if(distance<=dis) {
+                    distance = dis;
+                    dis=0;
+                    direction=6;
+                }
+                break;
+            }
+            if(curCityCrewPos[0]==1||curCityCrewPos[1]==1) break;
+            move(6);
+            dis++;
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        String sDistance = Integer.toString(distance) ;
+        String sDirection = Integer.toString(direction) ;
+        sb.append(sDistance);
+        sb.append(sDirection);
+        return Integer.parseInt(sb.toString());
     }
 
     @Override
@@ -139,9 +242,8 @@ public class PlayerClass implements Player{
     }
 
     @Override
-    public int done() {
+    public void done() {
         t.nextTurn();
-        return 0;
     }
 
     @Override
@@ -263,7 +365,22 @@ public class PlayerClass implements Player{
 
     @Override
     public void collect(int amount) {
-
+        Region[][] r = t.getRegions() ;
+        if(budget-amount-1>=0){
+            if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this)
+                    &&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep()>=amount) {
+                r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].withdrawn(amount);
+                if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep()==0){
+                    r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].freeOwner();
+                    if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].equals(curCityCenter)){
+                        r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].freeCityCenter();
+                        curCityCenter = null;
+                    }
+                }
+                budget-=1;
+                budget+=amount;
+            }
+        }
     }
 
     @Override
