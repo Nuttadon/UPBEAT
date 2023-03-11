@@ -1,1 +1,1 @@
-m=nearby upleft
+m=opponent
