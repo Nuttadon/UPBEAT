@@ -5,16 +5,16 @@ public class RegionClass implements Region{
     private Player cityCenterOf ;
     private double curDeposit;
     private double maxDeposit;
-    private int xpos;
-    private int ypos;
+    private int colpos;
+    private int rowpos;
 
     public RegionClass(double maxDep,int x,int y){
         owner = null;
         cityCenterOf = null;
         curDeposit = 0;
         this.maxDeposit = maxDep;
-        xpos=x;
-        ypos=y;
+        colpos=x;
+        rowpos=y;
 
     }
 
@@ -60,12 +60,22 @@ public class RegionClass implements Region{
         Player p = owner;
         return p;
     }
-    public int getX() {
-        int x = xpos;
+    @Override
+    public int getColPos() {
+        int x = colpos;
         return x;
     }
-    public int getY() {
-        int y = ypos;
+    @Override
+    public int getRowPos() {
+        int y = rowpos;
         return y;
+    }
+    @Override
+    public void setDep(int amount){
+        curDeposit = amount;
+    }
+    @Override
+    public Player getCityCenterOwner(){
+        return cityCenterOf;
     }
 }

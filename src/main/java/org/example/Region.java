@@ -10,4 +10,8 @@ public interface Region {
     public void withdrawn(int i);
     public double getDep();
     public Player getOwner();
+    public int getColPos();
+    public int getRowPos();
+    public void setDep(int amount);
+    public Player getCityCenterOwner();
 }

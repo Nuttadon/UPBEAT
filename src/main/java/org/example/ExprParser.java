@@ -170,7 +170,7 @@ public class ExprParser implements Parser{
             tkz.consume("shoot");
             Expr direc = Direction();
             Expr dmg = Expression();
-            //shoot(direc.eval(),dmg.eval());
+            parserOwner.shoot((int)dmg.eval(identifiers),(int)direc.eval(identifiers));
         }
     }
     private void RegionCommand() throws SyntaxError, LexicalError, EvalError, IOException {
