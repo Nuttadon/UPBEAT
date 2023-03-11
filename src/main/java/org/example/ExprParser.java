@@ -30,6 +30,7 @@ public class ExprParser implements Parser{
                 Statement();
             }
         }
+        System.out.println(identifiers.get("m"));
     }
     private void Statement() throws SyntaxError, LexicalError, EvalError, IOException {
         WhileStatement();
@@ -250,7 +251,7 @@ public class ExprParser implements Parser{
     }
     private Expr Factor() throws SyntaxError, LexicalError, EvalError, IOException {
         Expr f = Power();
-        while(tkz.peek("^")){
+        while(tkz.peek("^")){//use while for mu;tiple power ex.5^2^2
             if(isWhile) whileStatement.append("^");
             tkz.consume();
             f = arthFac.newArithExpr(Power(), "^",f);
@@ -293,8 +294,8 @@ public class ExprParser implements Parser{
             if(isWhile) whileStatement.append("nearby");
             tkz.consume("nearby");
             Expr t = Direction();
-            //int near = nearby(t.eval);
-            Expr nb =new Lit(1);
+            int near = parserOwner.nearby((int)t.eval(identifiers));
+            Expr nb =new Lit(near);
             return nb;
         }
     }

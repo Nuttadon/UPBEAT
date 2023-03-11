@@ -68,9 +68,13 @@ public class PlayerClass implements Player{
         this.t = t;
         RegionClass[][] r = t.getRegions();
         do{
-            curCityCenterPos[0] = (int) (((Math.random()*100)%t.getRows())+1);
+//            curCityCenterPos[0] = (int) (((Math.random()*100)%t.getRows())+1);
+            if(name.equals("Player1"))curCityCenterPos[0] = (int) (3+1);
+            else curCityCenterPos[0] = (int) (2+1);
             System.out.print("row = "+curCityCenterPos[0]+" ");
-            curCityCenterPos[1] = (int) (((Math.random()*100)%t.getCols())+1);
+//            curCityCenterPos[1] = (int) (((Math.random()*100)%t.getCols())+1);
+            if(name.equals("Player1"))curCityCenterPos[1] = (int) (1+1);
+            else curCityCenterPos[1] = (int) (0+1);
             System.out.println("col = "+curCityCenterPos[1]);
             curCityCenter = r[curCityCenterPos[0]-1][curCityCenterPos[1]-1];
         }while(curCityCenter.getOwner()!=null);
@@ -134,6 +138,7 @@ public class PlayerClass implements Player{
         StringBuilder sb = new StringBuilder();
         int crewPos0 = curCityCrewPos[0];
         int crewPos1 = curCityCrewPos[1];
+
         //up
         int dis = 0;
         while(true){
@@ -238,7 +243,124 @@ public class PlayerClass implements Player{
 
     @Override
     public int nearby(int direction) {
-        return 0;
+        Region[][] r = t.getRegions() ;
+        int distance = 0;
+        StringBuilder sb = new StringBuilder();
+        int crewPos0 = curCityCrewPos[0];
+        int crewPos1 = curCityCrewPos[1];
+
+        //up
+        int dis = 0;
+        if(direction==1){
+            while(true){
+                if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                    distance = dis;
+                    dis =0;
+                    direction=1;
+                    break;
+                }
+                if(curCityCrewPos[0]==1) break;
+                move(1);
+                dis++;
+            }
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        dis =0;
+        if(direction==2){
+            while(true){
+                if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                    if(distance<=dis) {
+                        distance = dis;
+                        dis=0;
+                        direction=2;
+                    }
+                    break;
+                }
+                if(curCityCrewPos[0]==1||curCityCrewPos[1]==t.getCols()) break;
+                move(2);
+                dis++;
+            }
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        dis =0;
+        if(direction==3){
+            while(true){
+                if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                    if(distance<=dis) {
+                        distance = dis;
+                        dis=0;
+                        direction=3;
+                    }
+                    break;
+                }
+                if(curCityCrewPos[0]==t.getRows()||curCityCrewPos[1]==t.getCols()) break;
+                move(3);
+                dis++;
+            }
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        dis =0;
+        if(direction==4){
+            while(true){
+                if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                    if(distance<=dis) {
+                        distance = dis;
+                        dis=0;
+                        direction=4;
+                    }
+                    break;
+                }
+                if(curCityCrewPos[0]==t.getRows()) break;
+                move(4);
+                dis++;
+            }
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        dis =0;
+        if(direction==5){
+            while(true){
+                if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                    if(distance<=dis) {
+                        distance = dis;
+                        dis=0;
+                        direction=5;
+                    }
+                    break;
+                }
+                if(curCityCrewPos[0]==t.getRows()||curCityCrewPos[1]==1) break;
+                move(5);
+                dis++;
+            }
+        }
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        dis =0;
+        if(direction==6){
+            while(true){
+                if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
+                    if(distance<=dis) {
+                        distance = dis;
+                        dis=0;
+                        direction=6;
+                    }
+                    break;
+                }
+                if(curCityCrewPos[0]==1||curCityCrewPos[1]==1) break;
+                move(6);
+                dis++;
+            }
+        }
+
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        return distance;
+
+
+
     }
 
     @Override
@@ -392,4 +514,5 @@ public class PlayerClass implements Player{
     public void plan() {
 
     }
+
 }
