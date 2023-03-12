@@ -18,3 +18,13 @@ UPBEAT Group 6
   Nuttadon -> fix and check parser and evaluator 
   Ixac -> check and improve game interface
   BezTTTT -> testing code and edit presentation
+  
+4th meeting -> 27/3/66  22.18 PM
+  Nuttadon -> Implementing Player base backend
+  Ixac -> Research for frontend nessary stuff
+  BezTTTT -> Implementing Region and Teritory base backend
+  
+ 5th meeting -> 9/3/66 20.00 PM
+  Nuttadon -> Implement unfinished backend
+  Ixac -> Creating Figma as a plan B for incoming presentation for project present.
+  BezTTTT -> Try implementing hexagon grind via React.js Note. Each hex is a cell is wanted
