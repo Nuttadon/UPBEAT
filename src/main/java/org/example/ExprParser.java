@@ -21,6 +21,7 @@ public class ExprParser implements Parser{
 
     public void Plan() throws SyntaxError, LexicalError, EvalError, IOException {
         while (tkz.hasNextToken()) {
+            parserOwner.updateIdentifiers();
             if(turnEnd) {
                 turnEnd = false;
                 break;
@@ -28,19 +29,7 @@ public class ExprParser implements Parser{
                 if(tkz.peek("}")) tkz.consume();
                 Statement();
             }
-            parserOwner.updateIdentifiers();
-            System.out.println(identifiers.get("rows"));
-            System.out.println(identifiers.get("cols"));
-            System.out.println(identifiers.get("currow"));
-            System.out.println(identifiers.get("curcol"));
-            System.out.println(identifiers.get("budget"));
-            System.out.println(identifiers.get("deposit"));
-            System.out.println(identifiers.get("int"));
-            System.out.println(identifiers.get("maxdeposit"));
-            System.out.println(identifiers.get("random"));
-            System.out.println("----------------------------");
         }
-
     }
     private void Statement() throws SyntaxError, LexicalError, EvalError, IOException {
         WhileStatement();

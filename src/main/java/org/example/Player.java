@@ -17,4 +17,5 @@ public interface Player {
     public void initPlan();
     public void startPlan() throws IOException, LexicalError, SyntaxError, EvalError;
     public void updateIdentifiers();
+    public int getTime(String digit);
 }

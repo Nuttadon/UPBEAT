@@ -39,13 +39,16 @@ public class RegionClass implements Region{
     }
 
     @Override
-    public void deposit(int i) {
-        curDeposit += i;
+    public void deposit(double i) {
+        if(curDeposit+i<= maxDeposit) curDeposit += i;
+        else curDeposit = maxDeposit;
     }
 
     @Override
     public void withdrawn(int i) {
-        curDeposit -= i;
+
+        if(curDeposit-i<=0) curDeposit -= i;
+        else curDeposit = 0;
     }
 
     @Override

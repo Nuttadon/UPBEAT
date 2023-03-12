@@ -153,6 +153,21 @@ public class PlayerClass implements Player{
     }
 
     @Override
+    public int getTime(String digit) {
+        int t;
+        if(digit.equals("initMin")){
+            t = intPlanMin;
+        }else if(digit.equals("initSec")){
+            t = intPlanSec;
+        }else if(digit.equals("RevMin")){
+            t = planRevMin;
+        }else{
+            t = planRevSec;
+        }
+        return t;
+    }
+
+    @Override
     public int opponent() {
         Region[][] r = t.getRegions() ;
         int distance = 0;

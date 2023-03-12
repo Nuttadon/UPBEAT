@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class TerritoryClass implements Territory{
-    private boolean curPlayerTurn;//0 = p1 1 = p2
+    private boolean curPlayerTurn;
     private int cols;
     private int rows;
     private int curTurn;
@@ -104,11 +104,21 @@ public class TerritoryClass implements Territory{
     public void nextTurn() {
         curPlayerTurn = !curPlayerTurn;
         curTurn++;
+        calculatePct();
     }
 
     @Override
-    public double calculatePct() {
-        return 0;
+    public void calculatePct() {
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                double b = initPercent;
+                double d = regions[i][j].getDep();
+                double t = curTurn;
+                double r = b * Math.log10(d)*Math.log(t);
+                double intOfRegion = (d*r)/100;
+                regions[i][j].deposit(intOfRegion);
+            }
+        }
     }
 
 }
