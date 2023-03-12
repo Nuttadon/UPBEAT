@@ -11,9 +11,10 @@ public interface Player {
     public void invest(int amount);
     public void collect(int amount);
     public void shoot(int damage,int direction);
-    public void plan();
+    public void replan();
     public String getName();
     public boolean getWin();
     public void initPlan();
     public void startPlan() throws IOException, LexicalError, SyntaxError, EvalError;
+    public void updateIdentifiers();
 }

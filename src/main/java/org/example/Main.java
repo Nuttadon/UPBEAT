@@ -12,6 +12,5 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) throws LexicalError, SyntaxError, EvalError, IOException {
         UPBEAT game = new UPBEAT();
-
     }
 }

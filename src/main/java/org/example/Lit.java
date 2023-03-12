@@ -8,7 +8,7 @@ public class Lit implements Expr{
         this.val = val;
     }
     @Override
-    public double eval(Map<String, Double> bindings) {
+    public double eval(Map<String, Integer> bindings) {
         return val;
     }
 

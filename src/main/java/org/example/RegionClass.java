@@ -50,7 +50,9 @@ public class RegionClass implements Region{
 
     @Override
     public double getDep() {
-        double d = curDeposit;
+        double d ;
+        if(owner!=null) d = curDeposit;
+        else d = (-1)*curDeposit;
         return d;
     }
 

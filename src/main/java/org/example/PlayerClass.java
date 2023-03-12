@@ -28,7 +28,7 @@ public class PlayerClass implements Player{
     private TerritoryClass t;
     private ExprTokenizer tok;
     private ExprParser par;
-    HashMap<String, Double> identifiers = new HashMap<>();
+    HashMap<String, Integer> identifiers = new HashMap<>();
 
     public PlayerClass(String name,TerritoryClass t){
         Path file = Paths.get("configFile.txt");
@@ -69,18 +69,29 @@ public class PlayerClass implements Player{
         RegionClass[][] r = t.getRegions();
         do{
 //            curCityCenterPos[0] = (int) (((Math.random()*100)%t.getRows())+1);
-            if(name.equals("Player1"))curCityCenterPos[0] = (int) (3+1);
-            else curCityCenterPos[0] = (int) (6+1);
+            if(name.equals("Player1"))curCityCenterPos[0] = (int) (4+1);
+            else curCityCenterPos[0] = (int) (2+1);
             System.out.print("row = "+curCityCenterPos[0]+" ");
 //            curCityCenterPos[1] = (int) (((Math.random()*100)%t.getCols())+1);
-            if(name.equals("Player1"))curCityCenterPos[1] = (int) (1+1);
-            else curCityCenterPos[1] = (int) (6+1);
+            if(name.equals("Player1"))curCityCenterPos[1] = (int) (0+1);
+            else curCityCenterPos[1] = (int) (3+1);
             System.out.println("col = "+curCityCenterPos[1]);
             curCityCenter = r[curCityCenterPos[0]-1][curCityCenterPos[1]-1];
         }while(curCityCenter.getOwner()!=null);
         r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].conquer(this);
         r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].setAsCityCenter();
         r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].deposit(initCenterDep);
+        curCityCrewPos[0] = curCityCenterPos[0];
+        curCityCrewPos[1] = curCityCenterPos[1];
+        identifiers.put("rows",t.getRows());
+        identifiers.put("cols",t.getRows());
+        identifiers.put("currow", curCityCrewPos[0]);
+        identifiers.put("curcol", curCityCrewPos[1]);
+        identifiers.put("budget", (int) this.budget);
+        identifiers.put("deposit", (int) t.getRegions()[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep());
+        identifiers.put("int", (int) t.getIntPercentage());
+        identifiers.put("maxdeposit", t.getMaxDep());
+        identifiers.put("random", (int) ((Math.random()*1000)%1000));
     }
     @Override
     public String getName(){
@@ -111,8 +122,6 @@ public class PlayerClass implements Player{
     }
     @Override
     public void startPlan() throws IOException, LexicalError, SyntaxError, EvalError {
-        curCityCrewPos[0] = t.getRegions()[curCityCenterPos[0]-1][curCityCenterPos[1]-1].getRowPos();
-        curCityCrewPos[1] = t.getRegions()[curCityCenterPos[0]-1][curCityCenterPos[1]-1].getColPos();
         StringBuilder sb = new StringBuilder();
         String player ;
         if(name.equals("Player1")) player = "player1Plan.txt";
@@ -128,6 +137,19 @@ public class PlayerClass implements Player{
         tok = new ExprTokenizer(sb.toString());
         par = new ExprParser(tok,identifiers,this);
         par.Plan();
+    }
+
+    @Override
+    public void updateIdentifiers() {
+        identifiers.put("rows",t.getRows());
+        identifiers.put("cols",t.getRows());
+        identifiers.put("currow", curCityCrewPos[0]);
+        identifiers.put("curcol", curCityCrewPos[1]);
+        identifiers.put("budget", (int) this.budget);
+        identifiers.put("deposit", (int) t.getRegions()[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep());
+        identifiers.put("int", (int) t.getIntPercentage());
+        identifiers.put("maxdeposit", t.getMaxDep());
+        identifiers.put("random", (int) ((Math.random()*1000)%1000));
     }
 
     @Override
@@ -250,10 +272,8 @@ public class PlayerClass implements Player{
         Region[][] r = t.getRegions() ;
         int distance = 0;
         Region regionFound = null;
-        StringBuilder sb = new StringBuilder();
         int crewPos0 = curCityCrewPos[0];
         int crewPos1 = curCityCrewPos[1];
-
         //up
         int dis = 0;
         if(direction==1){
@@ -268,11 +288,7 @@ public class PlayerClass implements Player{
                 moveNoCost(1);
                 dis++;
             }
-        }
-        curCityCrewPos[0] = crewPos0;
-        curCityCrewPos[1] = crewPos1;
-        dis =0;
-        if(direction==2){
+        }else if(direction==2){
             while(true){
                 if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
                     distance = dis;
@@ -284,11 +300,7 @@ public class PlayerClass implements Player{
                 moveNoCost(2);
                 dis++;
             }
-        }
-        curCityCrewPos[0] = crewPos0;
-        curCityCrewPos[1] = crewPos1;
-        dis =0;
-        if(direction==3){
+        }else if(direction==3){
             while(true){
                 if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
                     distance = dis;
@@ -300,11 +312,7 @@ public class PlayerClass implements Player{
                 moveNoCost(3);
                 dis++;
             }
-        }
-        curCityCrewPos[0] = crewPos0;
-        curCityCrewPos[1] = crewPos1;
-        dis =0;
-        if(direction==4){
+        }else if(direction==4){
             while(true){
                 if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
                     distance = dis;
@@ -316,11 +324,7 @@ public class PlayerClass implements Player{
                 moveNoCost(4);
                 dis++;
             }
-        }
-        curCityCrewPos[0] = crewPos0;
-        curCityCrewPos[1] = crewPos1;
-        dis =0;
-        if(direction==5){
+        }else if(direction==5){
             while(true){
                 if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
                     distance = dis;
@@ -332,11 +336,7 @@ public class PlayerClass implements Player{
                 moveNoCost(5);
                 dis++;
             }
-        }
-        curCityCrewPos[0] = crewPos0;
-        curCityCrewPos[1] = crewPos1;
-        dis =0;
-        if(direction==6){
+        }else{
             while(true){
                 if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&!(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this))){
                     distance = dis;
@@ -370,10 +370,14 @@ public class PlayerClass implements Player{
     @Override
     public void relocate() {
         Region[][] r = t.getRegions() ;
-        if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().getName().equals(name)) {
-            r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].freeCityCenter();
-            r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].setAsCityCenter();
-            curCityCenter = r[curCityCrewPos[0]-1][curCityCrewPos[1]-1];
+        int reloCost = (5*findShortestPath())+10;
+        if(budget-reloCost>=0){
+            if(itMyCity()) {
+                r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].freeCityCenter();
+                r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].setAsCityCenter();
+                curCityCenter = r[curCityCrewPos[0]-1][curCityCrewPos[1]-1];
+                budget-=reloCost;
+            }
         }
     }
 
@@ -487,7 +491,7 @@ public class PlayerClass implements Player{
             }
         }else{
             if(budget-1<0) {
-                System.out.println("end turn");
+                done();
             }
             else budget-=1;
         }
@@ -497,7 +501,7 @@ public class PlayerClass implements Player{
     @Override
     public void collect(int amount) {
         Region[][] r = t.getRegions() ;
-        if(budget-amount-1>=0){
+        if(budget-1>=0){
             if(itMyCity() &&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep()>=amount) {
                 r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].withdrawn(amount);
                 if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep()==0){
@@ -508,12 +512,17 @@ public class PlayerClass implements Player{
                     }
                 }
                 budget+=amount;
+                budget-=1;
+            }else{
+                budget-=1;
             }
+        }else{
+            if(budget-1<0) {
+                done();
+            }
+            else budget-=1;
         }
-        if(budget-1<0) {
-            System.out.println("end turn");
-        }
-        else budget-=1;
+
     }
 
     @Override
@@ -632,7 +641,7 @@ public class PlayerClass implements Player{
         budget-=(damage+1);
     }
     @Override
-    public void plan() {
+    public void replan() {
 
     }
 
@@ -755,5 +764,14 @@ public class PlayerClass implements Player{
         Region[][] r = t.getRegions() ;
         return r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this);
     }
+
+    private int findShortestPath(){
+        if(curCityCrewPos[1]==curCityCenterPos[1]){
+            return Math.abs(curCityCrewPos[0]-curCityCenterPos[0]);
+        }else{
+            return Math.abs(curCityCrewPos[1]-curCityCenterPos[1]);
+        }
+    }
+
 
 }

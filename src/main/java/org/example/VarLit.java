@@ -7,7 +7,7 @@ class VarLit implements Expr {
     public VarLit(String name) {
         this.name = name;
     }
-    public double eval(Map<String, Double> bindings) throws EvalError {
+    public double eval(Map<String, Integer> bindings) throws EvalError {
         if (bindings.containsKey(name)) return bindings.get(name);
         throw new EvalError("undefined variable: " + name);
     }

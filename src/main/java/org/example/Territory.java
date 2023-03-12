@@ -8,4 +8,6 @@ public interface Territory {
     public int getCols();
     public RegionClass[][] getRegions();
     public PlayerClass[] getPlayers();
+    public int getMaxDep();
+    public double getIntPercentage();
 }

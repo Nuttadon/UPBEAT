@@ -77,6 +77,19 @@ public class TerritoryClass implements Territory{
     public PlayerClass[] getPlayers(){
         return players;
     }
+
+    @Override
+    public int getMaxDep() {
+        int m = maxDeposit;
+        return m;
+    }
+
+    @Override
+    public double getIntPercentage() {
+        double p = initPercent;
+        return p;
+    }
+
     @Override
     public void winCheck() {
         if(players[0].getWin()) {

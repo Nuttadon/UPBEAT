@@ -12,9 +12,8 @@ public class ExprParser implements Parser{
     private StringBuilder whileStatement = new StringBuilder();
     private StringBuilder s = new StringBuilder();
     ArithExprFactory arthFac = ArithExprFactory.instance();
-    private HashMap<String, Double> identifiers;
-    public ExprParser(ExprTokenizer tkz,HashMap<String, Double> h,PlayerClass p) {
-
+    private HashMap<String, Integer> identifiers;
+    public ExprParser(ExprTokenizer tkz, HashMap<String, Integer> h, PlayerClass p) {
         this.tkz = tkz;
         this.identifiers = h;
         this.parserOwner = p;
@@ -29,8 +28,19 @@ public class ExprParser implements Parser{
                 if(tkz.peek("}")) tkz.consume();
                 Statement();
             }
+            parserOwner.updateIdentifiers();
+            System.out.println(identifiers.get("rows"));
+            System.out.println(identifiers.get("cols"));
+            System.out.println(identifiers.get("currow"));
+            System.out.println(identifiers.get("curcol"));
+            System.out.println(identifiers.get("budget"));
+            System.out.println(identifiers.get("deposit"));
+            System.out.println(identifiers.get("int"));
+            System.out.println(identifiers.get("maxdeposit"));
+            System.out.println(identifiers.get("random"));
+            System.out.println("----------------------------");
         }
-//        System.out.println(identifiers.get("m"));
+
     }
     private void Statement() throws SyntaxError, LexicalError, EvalError, IOException {
         WhileStatement();
@@ -50,16 +60,16 @@ public class ExprParser implements Parser{
             if(t.eval(identifiers)>0){
                 isWhile = true;
                 Statement();
-                System.out.println(whileStatement.toString());
-                System.out.println(identifiers.get("m"));
-                System.out.println(identifiers.get("n"));
+//                System.out.println(whileStatement.toString());
+//                System.out.println(identifiers.get("m"));
+//                System.out.println(identifiers.get("n"));
                 isWhile = false;
                 for(int counter = 0 ; counter < 10000 && t.eval(identifiers)>0;counter++){
                     ExprTokenizer l = new ExprTokenizer(whileStatement.toString());
                     ExprParser p = new ExprParser(l,identifiers,parserOwner);
                     p.Plan();
-                    System.out.println(identifiers.get("m"));
-                    System.out.println(identifiers.get("n"));
+//                    System.out.println(identifiers.get("m"));
+//                    System.out.println(identifiers.get("n"));
                 }
             }else {
                 clearState();
@@ -196,14 +206,19 @@ public class ExprParser implements Parser{
         }
     }
     private void AssignmentStatement() throws SyntaxError, LexicalError, EvalError, IOException {
-        if((!(tkz.peek("collect")||tkz.peek("done")||tkz.peek("down")||tkz.peek("downleft")||tkz.peek("downright")||tkz.peek("else")||tkz.peek("if")||tkz.peek("invest")||tkz.peek("move")||tkz.peek("nearby")||tkz.peek("opponent")||tkz.peek("relocate")||tkz.peek("shoot")||tkz.peek("then")||tkz.peek("up")||tkz.peek("upleft")||tkz.peek("upright")||tkz.peek("while")||tkz.peek("}")))&&tkz.hasNextToken()) {
+        if(tkz.peek("budget")||tkz.peek("rows")||tkz.peek("cols")||tkz.peek("currow")||tkz.peek("curcol")||tkz.peek("deposit")||tkz.peek("int")||tkz.peek("maxdeposit")||tkz.peek("random")){
+            if(isWhile) whileStatement.append(tkz.peek());
+            tkz.consume();
+            if(isWhile) whileStatement.append("=");
+            tkz.consume("=");
+            Expr v = Expression();
+        } else if((!(tkz.peek("collect")||tkz.peek("done")||tkz.peek("down")||tkz.peek("downleft")||tkz.peek("downright")||tkz.peek("else")||tkz.peek("if")||tkz.peek("invest")||tkz.peek("move")||tkz.peek("nearby")||tkz.peek("opponent")||tkz.peek("relocate")||tkz.peek("shoot")||tkz.peek("then")||tkz.peek("up")||tkz.peek("upleft")||tkz.peek("upright")||tkz.peek("while")||tkz.peek("}")))&&tkz.hasNextToken()) {
             if(isWhile) whileStatement.append(tkz.peek());
             String va = tkz.consume();
             if(isWhile) whileStatement.append("=");
             tkz.consume("=");
             Expr v = Expression();
-            identifiers.put(va, v.eval(identifiers));
-
+            identifiers.put(va, (int) v.eval(identifiers));
         }
     }
     private Expr Expression() throws SyntaxError, LexicalError, EvalError, IOException {
@@ -287,7 +302,6 @@ public class ExprParser implements Parser{
             if(isWhile) whileStatement.append("opponent");
             tkz.consume("opponent");
             int opponent = parserOwner.opponent();
-            System.out.println(opponent);
             Expr op =new Lit(opponent);
             return op;
         }else{

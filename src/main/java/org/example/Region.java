@@ -14,4 +14,5 @@ public interface Region {
     public int getRowPos();
     public void setDep(int amount);
     public Player getCityCenterOwner();
+
 }

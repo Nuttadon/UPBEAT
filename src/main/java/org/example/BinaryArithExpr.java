@@ -12,7 +12,7 @@ public class BinaryArithExpr implements Expr{
     }
 
     @Override
-    public double eval(Map<String, Double> bindings) throws EvalError {
+    public double eval(Map<String, Integer> bindings) throws EvalError {
         double lv = left.eval(bindings);
         double rv = right.eval(bindings);
         if (op.equals("+")) return lv + rv;
