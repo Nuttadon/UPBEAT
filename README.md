@@ -19,7 +19,7 @@ UPBEAT Group 6
   Ixac -> check and improve game interface
   BezTTTT -> testing code and edit presentation
   
-4th meeting -> 27/3/66  22.18 PM
+4th meeting -> 27/2/66  22.18 PM
   Nuttadon -> Implementing Player base backend
   Ixac -> Research for frontend nessary stuff
   BezTTTT -> Implementing Region and Teritory base backend
