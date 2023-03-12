@@ -30,7 +30,7 @@ public class ExprParser implements Parser{
                 Statement();
             }
         }
-        System.out.println(identifiers.get("m"));
+//        System.out.println(identifiers.get("m"));
     }
     private void Statement() throws SyntaxError, LexicalError, EvalError, IOException {
         WhileStatement();

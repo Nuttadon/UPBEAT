@@ -138,8 +138,6 @@ public class PlayerClass implements Player{
         StringBuilder sb = new StringBuilder();
         int crewPos0 = curCityCrewPos[0];
         int crewPos1 = curCityCrewPos[1];
-
-
         int dis = 0;
         //upleft
         while(true){
@@ -481,7 +479,7 @@ public class PlayerClass implements Player{
                 r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].deposit(amount);
                 r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].conquer(this);
                 budget-=(amount+1);
-            }else if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this)){
+            }else if(itMyCity()){
                 r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].deposit(amount);
                 budget-=(amount+1);
             }else{
@@ -500,7 +498,7 @@ public class PlayerClass implements Player{
     public void collect(int amount) {
         Region[][] r = t.getRegions() ;
         if(budget-amount-1>=0){
-            if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this) &&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep()>=amount) {
+            if(itMyCity() &&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep()>=amount) {
                 r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].withdrawn(amount);
                 if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep()==0){
                     r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].freeOwner();
@@ -544,8 +542,92 @@ public class PlayerClass implements Player{
                 }else{
                     r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
                 }
-        }
+            }else if(direction==2){
+                moveNoCost(2);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
 
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }else if(direction==3){
+                moveNoCost(3);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
+
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }else if(direction==4){
+                moveNoCost(4);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
+
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }else if(direction==5){
+                moveNoCost(5);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
+
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }else{
+                moveNoCost(6);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
+
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }
         }
         budget-=(damage+1);
     }
@@ -643,42 +725,35 @@ public class PlayerClass implements Player{
         int crewPos1 = curCityCrewPos[1];
         boolean adjacentLand = false;
         moveNoCost(1);
-        if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this)){
-            adjacentLand = true;
-        }
+        if(itMyCity())adjacentLand = true;
         curCityCrewPos[0] = crewPos0;
         curCityCrewPos[1] = crewPos1;
         moveNoCost(2);
-        if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this)){
-            adjacentLand = true;
-        }
+        if(itMyCity())adjacentLand = true;
         curCityCrewPos[0] = crewPos0;
         curCityCrewPos[1] = crewPos1;
         moveNoCost(3);
-        if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this)){
-            adjacentLand = true;
-        }
+        if(itMyCity())adjacentLand = true;
         curCityCrewPos[0] = crewPos0;
         curCityCrewPos[1] = crewPos1;
         moveNoCost(4);
-        if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this)){
-            adjacentLand = true;
-        }
+        if(itMyCity())adjacentLand = true;
         curCityCrewPos[0] = crewPos0;
         curCityCrewPos[1] = crewPos1;
         moveNoCost(5);
-        if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this)){
-            adjacentLand = true;
-        }
+        if(itMyCity())adjacentLand = true;
         curCityCrewPos[0] = crewPos0;
         curCityCrewPos[1] = crewPos1;
         moveNoCost(6);
-        if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this)){
-            adjacentLand = true;
-        }
+        if(itMyCity())adjacentLand = true;
         curCityCrewPos[0] = crewPos0;
         curCityCrewPos[1] = crewPos1;
         return adjacentLand;
+    }
+
+    private boolean itMyCity(){
+        Region[][] r = t.getRegions() ;
+        return r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this);
     }
 
 }
