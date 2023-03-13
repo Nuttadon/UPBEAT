@@ -21,6 +21,8 @@ public class UPBEAT {
 
     public UPBEAT() throws LexicalError, SyntaxError, EvalError, IOException {
         t = new TerritoryClass();
+        PlayerClass[] p = t.getPlayers();
+        System.out.println(p[0].findShortestPath());
         curTurn = t.getTurn();
         rows = t.getRows();
         cols = t.getCols();

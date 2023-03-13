@@ -122,6 +122,8 @@ public class PlayerClass implements Player{
     }
     @Override
     public void startPlan() throws IOException, LexicalError, SyntaxError, EvalError {
+        curCityCrewPos[0] = curCityCenterPos[0];
+        curCityCrewPos[1] = curCityCenterPos[1];
         StringBuilder sb = new StringBuilder();
         String player ;
         if(name.equals("Player1")) player = "player1Plan.txt";
@@ -780,13 +782,11 @@ public class PlayerClass implements Player{
         return r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this);
     }
 
-    private int findShortestPath(){
+    public int findShortestPath(){//to be fix
         if(curCityCrewPos[1]==curCityCenterPos[1]){
             return Math.abs(curCityCrewPos[0]-curCityCenterPos[0]);
         }else{
             return Math.abs(curCityCrewPos[1]-curCityCenterPos[1]);
         }
-    }
-
-
+        }
 }
