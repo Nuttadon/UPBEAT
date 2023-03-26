@@ -1,4 +1,4 @@
-col=9
+col=8
 row=9
 init_plan_min=5
 init_plan_sec=0

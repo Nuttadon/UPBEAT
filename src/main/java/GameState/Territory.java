@@ -1,4 +1,4 @@
-package org.example;
+package GameState;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,18 +7,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class TerritoryClass implements Territory{
+public class Territory {
     private boolean curPlayerTurn;
     private int cols;
     private int rows;
     private int curTurn;
-    private double curPercent;
-    private int maxDeposit;
+    private double maxDeposit;
     private double initPercent;
-    private PlayerClass[] players = new PlayerClass[2];
-    private RegionClass[][] regions;
+    public Player[] players ;
+    private Region[][] regions;
 
-    public TerritoryClass(){
+
+    public Territory(){
+        players = new Player[2];
         Path file = Paths.get("configFile.txt");
         Charset charset = Charset.forName("UTF-8");
         try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
@@ -33,81 +34,54 @@ public class TerritoryClass implements Territory{
                 }if(line.contains("interest_pct")) {
                     line = line.replace("interest_pct=","");
                     initPercent = Integer.parseInt(line);
-                    curPercent = Integer.parseInt(line);
                 }if(line.contains("max_dep")) {
                     line = line.replace("max_dep=","");
-                    maxDeposit = Integer.parseInt(line);
+                    maxDeposit = Double.parseDouble(line);
                 }
             }
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
         }
-        curPlayerTurn = Math.random()<0.5;
-        curTurn = 0;
-        regions = new RegionClass[rows][cols];
+        regions = new Region[rows][cols];
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
-                regions[i][j] = new RegionClass(maxDeposit,j+1,i+1);
-//                System.out.print((j+1)+" ");
+                regions[i][j] = new Region(maxDeposit,j+1,i+1);
             }
-//            System.out.println();
         }
-        players[0] = new PlayerClass("Player1",this);
-        players[1] = new PlayerClass("Player2",this);
+        players[0] = new Player("Player1",this);
+        players[1] = new Player("Player2",this);
     }
 
-    public boolean getTurn(){
-        return curPlayerTurn;
-    }
-    @Override
     public int getRows(){
         int r = rows;
         return r;
     }
-    @Override
     public int getCols(){
         int c = cols;
         return  c;
     }
-    @Override
-    public RegionClass[][] getRegions(){
+    public Region[][] getRegions(){
         return regions;
     }
-    @Override
-    public PlayerClass[] getPlayers(){
+    public Player[] getPlayers(){
         return players;
     }
-
-    @Override
-    public int getMaxDep() {
-        int m = maxDeposit;
+    public double getMaxDep() {
+        double m = maxDeposit;
         return m;
     }
-
-    @Override
     public double getIntPercentage() {
         double p = initPercent;
         return p;
     }
-
-    @Override
     public void winCheck() {
-        if(players[0].getWin()) {
-            System.out.println("Game end player 1 win");
-        }
-        if(players[1].getWin()) {
-            System.out.println("Game end player 2 win");
-        }
-    }
 
-    @Override
+    }
     public void nextTurn() {
         curPlayerTurn = !curPlayerTurn;
         curTurn++;
         calculatePct();
     }
-
-    @Override
     public void calculatePct() {
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
@@ -120,5 +94,4 @@ public class TerritoryClass implements Territory{
             }
         }
     }
-
 }

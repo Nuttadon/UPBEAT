@@ -23,8 +23,8 @@ public class WhileStatement implements Statement {
     public boolean eval(Player player) throws EvalError {
         double e = this.condition.eval(player);
         for (int counter = 0; counter < 10000 && e > 0; counter++) {
-//            if(!this.statement.eval(player)) return false;
-//            e = this.condition.eval(player);
+            if(!this.statement.eval(player)) return false;
+            e = this.condition.eval(player);
         }
         return true;
     }

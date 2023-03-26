@@ -23,7 +23,6 @@ public class Plan implements Node{
 
     public void eval(Player player) throws EvalError {
         for (Statement statement : this.statementList){
-            System.out.println(statement);
             if(!statement.eval(player)) return;
         }
     }

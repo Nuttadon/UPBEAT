@@ -13,15 +13,7 @@ public class Nearby implements Expression{
     }
 
     public double eval(Player player) throws EvalError {
-//        Region current = player.cityCrew;
-//        double distance = 0;
-//        while (current.gotoDirection(this.direction) != null) {
-//            distance++;
-//            current = current.gotoDirection(this.direction);
-//            if(current.owner != null && current.owner != player)
-//                return 100*distance + Math.floor(Math.log10(current.getDeposit()));
-//        }
-        return 0;
+        return  player.nearby(direction);
     }
 
     public void prettyPrint(StringBuilder s) {

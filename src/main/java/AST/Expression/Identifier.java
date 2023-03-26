@@ -15,17 +15,18 @@ public class Identifier implements Expression {
     }
 
     public double eval(Player player) throws EvalError {
-        if(name.equals("rows")) return player.territory().TERRITORY_ROW();
-        else if(name.equals("cols")) return player.territory().TERRITORY_COL();
-        else if(name.equals("currow")) return player.cityCrew.getRow();
-        else if(name.equals("curcol")) return player.cityCrew.getCol();
+        if(name.equals("rows")) return player.getTerritory().getRows();
+        else if(name.equals("cols")) return player.getTerritory().getCols();
+        else if(name.equals("currow")) return player.getCurCityCrewPos()[0];
+        else if(name.equals("curcol")) return player.getCurCityCrewPos()[1];
         else if(name.equals("budget")) return Math.floor(player.getBudget());
         else if(name.equals("deposit")){
-            double deposit = Math.floor(player.cityCrew.getDeposit());
-            if(player.cityCrew.owner == player) return deposit;
+            double deposit = Math.floor(player.getCurCrewReg().getDep());
+            if(player.getCurCrewReg().getOwner().equals(player)) return deposit;
             else return 0-deposit;
-        }else if(name.equals("int")) return Math.round(player.cityCrew.getInterestRate());
-        else if(name.equals("maxdeposit")) return player.territory().MAX_DEPOSIT();
+        }
+        else if(name.equals("int")) return Math.round(player.getCurCrewReg().getInt());
+        else if(name.equals("maxdeposit")) return player.getTerritory().getMaxDep();
         else if(name.equals("random")) return Math.floor(Math.random()*1000);
 
         if(!player.variables.containsKey(name)) return 0;

@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 import static java.lang.Character.*;
 import static java.lang.Character.isDigit;
-
+import AST.RestricWord.*;
 public class Tokenizer {
     private final String src;
     private String next;
@@ -56,7 +56,6 @@ public class Tokenizer {
         if (isLetter(c)) {
             s.append(c);
             for (pos++; pos < src.length() && isLetter(src.charAt(pos)); pos++){
-                if (s.toString().equals("collect")||s.toString().equals("done")||s.toString().equals("downleft")||s.toString().equals("downright")||s.toString().equals("else")||s.toString().equals("if")||s.toString().equals("invest")||s.toString().equals("move")||s.toString().equals("nearby")||s.toString().equals("opponent")||s.toString().equals("relocate")||s.toString().equals("shoot")||s.toString().equals("then")||s.toString().equals("upleft")||s.toString().equals("upright")||s.toString().equals("while")) break;
                 s.append(src.charAt(pos));
             }
         }
