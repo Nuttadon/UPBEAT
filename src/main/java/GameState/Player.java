@@ -116,6 +116,7 @@ public class Player {
             String line = null;
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
+                sb.append(" ");
             }
         }
         Tokenizer t = new Tokenizer(sb.toString());
