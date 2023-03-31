@@ -14,20 +14,17 @@ public class ActionCommand implements Statement {
     }
 
     public boolean eval(Player player){
-//        if(action.equals(Command.relocate)){ // relocate command
-//            int ccx = player.cityCenter.getRow(); //CityCenterX
-//            int ccy = player.cityCenter.getCol(); //CityCenterY
-//            int newCCX = player.cityCrew.getRow();
-//            int newCCY = player.cityCrew.getCol();
-//            int r = ccx - (ccy - ccy % 2) / 2;
-//            int newR = newCCX - (newCCY - newCCY % 2) / 2;
-//            int minDistance = (Math.abs(newCCY - ccy) + Math.abs(newR - r) + Math.abs((-newCCY-newR) + (ccy + r))) / 2;
-//            double cost = 5 * minDistance + 10;
-//            if(player.getBudget() >= cost && player.cityCrew.owner == player){
-//                player.subBudget(cost);
-//                player.cityCenter = player.cityCrew;
-//            }
-//        }
+        if(action.equals(Command.relocate)){ // relocate command
+            int ccx = player.getCityCenter().getRowPos(); //CityCenterX
+            int ccy = player.getCityCenter().getColPos(); //CityCenterY
+            int newCCX = player.getCurCityCrewPos()[0];
+            int newCCY = player.getCurCityCrewPos()[1];
+            int r = ccx - (ccy - ccy % 2) / 2;
+            int newR = newCCX - (newCCY - newCCY % 2) / 2;
+            int minDistance = (Math.abs(newCCY - ccy) + Math.abs(newR - r) + Math.abs((-newCCY-newR) + (ccy + r))) / 2;
+            double cost = 5 * minDistance + 10;
+            player.relocate(cost);
+        }
         return false;
     }
 }

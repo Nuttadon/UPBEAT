@@ -1,6 +1,12 @@
 x1 = currow y1 = curcol
+move down
+move downleft
+move downleft
+move downleft
+xb = currow yb = curcol
 move up
-move up
-m = deposit
-n = budget
+move upright
+move upright
+
+
 xb = currow yb = curcol

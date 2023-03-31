@@ -18,7 +18,6 @@ public class MoveCommand implements Statement {
     }
 
     public boolean eval(Player player) throws EvalError {
-        player.move(direction);
-        return true;
+        return player.move(direction);
     }
 }

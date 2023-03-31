@@ -24,10 +24,9 @@ public class RegionCommand implements Statement {
 
     public boolean eval(Player player) throws EvalError {
         if(action.equals(Command.invest)){ // invest command
-            player.invest(expression.eval(player));
+            return player.invest(expression.eval(player));
         }else{ // collect command
-            player.collect(expression.eval(player));
+            return player.collect(expression.eval(player));
         }
-        return true;
     }
 }
