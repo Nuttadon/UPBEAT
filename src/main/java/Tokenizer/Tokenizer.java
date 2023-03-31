@@ -55,7 +55,7 @@ public class Tokenizer {
         char c = src.charAt(pos);
         if (isLetter(c)) {
             s.append(c);
-            for (pos++; pos < src.length() && isLetter(src.charAt(pos)); pos++){
+            for (pos++; pos < src.length() && (isLetter(src.charAt(pos))||isDigit(src.charAt(pos))); pos++){
                 s.append(src.charAt(pos));
             }
         }

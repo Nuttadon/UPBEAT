@@ -18,12 +18,7 @@ public class MoveCommand implements Statement {
     }
 
     public boolean eval(Player player) throws EvalError {
-//        if(player.getBudget() < player.territory().FEE_CHARGE()) return false;
-//        player.subBudget(player.territory().FEE_CHARGE());
-//
-//        Region next = player.cityCrew.gotoDirection(this.direction);
-//        if (next != null && (next.owner == null || next.owner == player))
-//            player.cityCrew = next;
+        player.move(direction);
         return true;
     }
 }

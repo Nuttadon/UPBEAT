@@ -5,6 +5,8 @@ import AST.Expression.*;
 import Exception.*;
 import Tokenizer.Tokenizer;
 
+import static java.lang.Character.isDigit;
+
 public class ExprParser extends StatementParser implements Parser{
     private SyntaxError syntaxError_long = new SyntaxError("Expected Number");
 
@@ -74,10 +76,10 @@ public class ExprParser extends StatementParser implements Parser{
             tkz.consume(")");
         }else if(tkz.peek("opponent")){
             tkz.consume();
-            e = Info(true);
+            e = InfoExpression(true);
         }else if(tkz.peek("nearby")){
             tkz.consume();
-            e = Info(false);
+            e = InfoExpression(false);
         }else{
             String identifier = tkz.consume();
             if(!isIdentifier(identifier)) throw syntaxError_identifier;
@@ -86,7 +88,7 @@ public class ExprParser extends StatementParser implements Parser{
         return e;
     }
 
-    private Expression Info(boolean isOpponent) throws SyntaxError {
+    private Expression InfoExpression(boolean isOpponent) throws SyntaxError {
         if(isOpponent) return new Opponent();
         else return new Nearby(parseDirection());
     }

@@ -84,7 +84,6 @@ public class Player {
         curCityCrewPos[0] = curCityCenterPos[0];
         curCityCrewPos[1] = curCityCenterPos[1];
     }
-
     public Territory getTerritory(){
         return territory;
     }
@@ -93,9 +92,7 @@ public class Player {
         return curCityCenter;
     }
 
-    public double getBudget(){
-        return budget;
-    }
+    public double getBudget(){return budget;}
 
     public int[] getCurCityCrewPos(){
         return curCityCrewPos;
@@ -105,7 +102,7 @@ public class Player {
         Region[][] r = territory.getRegions();
         return r[curCityCrewPos[0]-1][curCityCrewPos[1]-1];
     }
-    private void readPlan() throws EvalError, IOException, SyntaxError {
+    private void readPlan() throws IOException, SyntaxError {
         StringBuilder sb = new StringBuilder();
         String player ;
         if(name.equals("Player1")) player = "player1Plan.txt";
@@ -125,6 +122,8 @@ public class Player {
     }
 
     public void startPlan() throws EvalError, SyntaxError, IOException {
+        curCityCrewPos[0] = curCityCenterPos[0];
+        curCityCrewPos[1] = curCityCenterPos[1];
         readPlan();
         StringBuilder s = new StringBuilder();
         construction_Plan.prettyPrint(s);
@@ -335,6 +334,99 @@ public class Player {
             output = sDistance+y;
         }
         return output;
+    }
+
+    public void move(Direction direction) {
+        if(direction.equals(Direction.up)){
+            if(curCityCrewPos[0]-1>0){
+                if(budget-1>=0){
+                    curCityCrewPos[0]-=1;
+                    budget-=1;
+                }
+            }
+        }
+        else if(direction.equals(Direction.upright)){
+            if(curCityCrewPos[1]%2==0){
+                if(curCityCrewPos[0]-1>0&&curCityCrewPos[1]+1<=territory.getCols()){
+                    if(budget-1>=0){
+                        curCityCrewPos[0]-=1;
+                        curCityCrewPos[1]+=1;
+                        budget-=1;
+                    }
+                }
+            }else{
+                if(curCityCrewPos[1]+1<=territory.getCols()){
+                    if(budget-1>=0){
+                        curCityCrewPos[1]+=1;
+                        budget-=1;
+                    }
+                }
+            }
+        }
+        else if(direction.equals(Direction.downright)){
+            if(curCityCrewPos[1]%2==0){
+                if(curCityCrewPos[1]+1<=territory.getCols()){
+                    if(budget-1>=0){
+                        curCityCrewPos[1]+=1;
+                        budget-=1;
+                    }
+                }
+            }else{
+                if(curCityCrewPos[0]+1<=territory.getRows()&&curCityCrewPos[1]+1<=territory.getCols()){
+                    if(budget-1>=0){
+                        curCityCrewPos[0]+=1;
+                        curCityCrewPos[1]+=1;
+                        budget-=1;
+                    }
+                }
+            }
+        }
+        else if(direction.equals(Direction.down)){
+            if(curCityCenterPos[0]+1<territory.getRows()){
+                if(budget-1>=0){
+                    curCityCrewPos[0]+=1;
+                    budget-=1;
+                }
+            }
+        }
+        else if(direction.equals(Direction.upleft)){
+            if(curCityCrewPos[1]%2==0){
+                if(curCityCrewPos[1]-1>0){
+                    if(budget-1>=0){
+                        curCityCrewPos[1]-=1;
+                        budget-=1;
+                    }
+                }
+            }else{
+                if(curCityCrewPos[0]+1<=territory.getRows()&&curCityCrewPos[1]-1>0){
+                    if(budget-1>=0){
+                        curCityCrewPos[0]+=1;
+                        curCityCrewPos[1]-=1;
+                        budget-=1;
+                    }
+
+                }
+            }
+        }
+        else {
+            if(curCityCrewPos[1]%2==0){
+                if(curCityCrewPos[1]-1>0&&curCityCrewPos[0]-1>0){
+                    if(budget-1>=0){
+                        curCityCrewPos[0]-=1;
+                        curCityCrewPos[1]-=1;
+                        budget-=1;
+                    }
+                }
+            }else{
+                if(curCityCrewPos[1]-1>0){
+                    if(budget-1>=0){
+                        curCityCrewPos[1]-=1;
+                        budget-=1;
+                    }
+
+                }
+            }
+        }
     }
     private void moveNoCost(Direction direction){
         if(direction.equals(Direction.up)){

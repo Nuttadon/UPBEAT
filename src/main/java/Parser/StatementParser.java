@@ -13,6 +13,9 @@ import Tokenizer.Tokenizer;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
+import static java.lang.Character.isDigit;
+import static java.lang.Character.isLetter;
+
 public class StatementParser implements Parser{
     protected final Tokenizer tkz;
     private static final String[] reservedWords = {"collect", "done", "down", "downleft", "downright", "else", "if",
@@ -81,11 +84,7 @@ public class StatementParser implements Parser{
     private Statement parseAssign(String identifier) throws SyntaxError{
         if(!isIdentifier(identifier)) throw syntaxError_identifier;
         Identifier var = new Identifier(identifier);
-        try{
-            tkz.consume("=");
-        }catch (SyntaxError e){
-            System.out.println(e.getMessage());
-        }
+        tkz.consume("=");
         Expression expr = new ExprParser(tkz).parse();
         return new AssignStatement(var,expr);
     }
@@ -127,22 +126,18 @@ public class StatementParser implements Parser{
     }
 
     protected boolean isIdentifier(String identifier){
-        if(!isChar(identifier.charAt(0))) return false;
+        if(!isLetter(identifier.charAt(0))) return false;
         for(int i=1 ; i<identifier.length() ; i++){
             char c = identifier.charAt(i);
-            if(!isChar(c) && !isDigit(c)) return false;
+            if(!isLetter(c) && !isDigit(c)) return false;
         }
         for(String rv : reservedWords){
-            if(identifier.equals(rv)) return false;
+            if(identifier.equals(rv)){
+                return false;
+            }
         }
         return true;
     }
 
-    protected boolean isDigit(char c){
-        return '0'<=c && c<='9';
-    }
 
-    protected boolean isChar(char c){
-        return ('a'<=c && c<='z') || ('A'<=c && c<='Z');
-    }
 }
