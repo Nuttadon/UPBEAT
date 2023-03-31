@@ -50,6 +50,10 @@ public class Territory {
         }
         players[0] = new Player("Player1",this);
         players[1] = new Player("Player2",this);
+
+        curTurn = 1;
+        if(Math.random()>0.5) curPlayerTurn = true;
+        else curPlayerTurn = false;
     }
 
     public int getRows(){
@@ -66,6 +70,7 @@ public class Territory {
     public Player[] getPlayers(){
         return players;
     }
+
     public double getMaxDep() {
         double m = maxDeposit;
         return m;
@@ -93,5 +98,13 @@ public class Territory {
                 regions[i][j].deposit(intOfRegion);
             }
         }
+    }
+
+    public boolean getWhoTurn(){
+        return curPlayerTurn;
+    }
+
+    public int getTurn(){
+        return curTurn;
     }
 }

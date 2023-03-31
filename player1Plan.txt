@@ -1,12 +1,1 @@
-x1 = currow y1 = curcol
-move down
-move downleft
-move downleft
-move downleft
-xb = currow yb = curcol
-move up
-move upright
-move upright
-
-
-xb = currow yb = curcol
+move up move up x1 = currow y1 = curcol
