@@ -130,6 +130,22 @@ public class Player {
         System.out.println(s.toString());
         construction_Plan.eval(this);
     }
+
+    public void rePlan(String s){
+        if(budget-revCost>=0){
+            String player ;
+            if(name.equals("Player1")) player = "player1Plan.txt";
+            else player = "player2Plan.txt";
+            Path file2 = Paths.get(player);  // path string
+            Charset charset = Charset.forName("UTF-8");
+            try (BufferedWriter writer = Files.newBufferedWriter(file2, charset)) {
+                writer.write(s, 0, s.length());
+            } catch (IOException x) {
+                System.err.format("IOException: %s%n", x);
+            }
+            budget-=revCost;
+        }
+    }
     public int opponent() {
         Region[][] r = territory.getRegions() ;
         int distance = 0;
