@@ -22,8 +22,8 @@ public class Identifier implements Expression {
         else if(name.equals("budget")) return Math.floor(player.getBudget());
         else if(name.equals("deposit")){
             double deposit = Math.floor(player.getCurCrewReg().getDep());
-            if(player.getCurCrewReg().getOwner().equals(player)) return deposit;
-            else return 0-deposit;
+            if(player.getCurCrewReg().getOwner()!=null&&player.getCurCrewReg().getOwner().equals(player)) return deposit;
+            else return (-1)*deposit;
         }
         else if(name.equals("int")) return Math.round(player.getCurCrewReg().getInt());
         else if(name.equals("maxdeposit")) return player.getTerritory().getMaxDep();

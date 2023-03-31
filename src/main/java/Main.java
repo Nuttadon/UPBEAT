@@ -16,13 +16,12 @@ public class Main {
     public static void main(String[] args) throws EvalError, SyntaxError, IOException {
         Territory t = new Territory();
         t.players[0].startPlan();
-        System.out.println(t.players[0].variables.get("m"));
         System.out.println(t.players[0].variables.get("x1"));
         System.out.println(t.players[0].variables.get("y1"));
 
         System.out.println(t.players[0].variables.get("xb"));
         System.out.println(t.players[0].variables.get("yb"));
-
+        System.out.println(t.players[0].variables.get("m"));
 
     }
 }

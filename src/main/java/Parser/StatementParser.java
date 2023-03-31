@@ -112,7 +112,7 @@ public class StatementParser implements Parser{
     }
 
     private Statement parseAttack() throws SyntaxError{
-        return new AttackCommand(parseDirection(),new ExprParser(this.tkz).parse());
+        return new ShootCommand(parseDirection(),new ExprParser(this.tkz).parse());
     }
 
     protected Direction parseDirection() throws SyntaxError{

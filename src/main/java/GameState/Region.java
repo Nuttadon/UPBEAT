@@ -34,8 +34,8 @@ public class Region  {
         if(curDeposit+i<= maxDeposit) curDeposit += i;
         else curDeposit = maxDeposit;
     }
-    public void withdrawn(int i) {
-        if(curDeposit-i<=0) curDeposit -= i;
+    public void withdrawn(double i) {
+        if(curDeposit-i>=0) curDeposit -= i;
         else curDeposit = 0;
     }
     public double getDep() {

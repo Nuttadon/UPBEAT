@@ -34,7 +34,7 @@ public class Player {
     private int[] curCityCenterPos = new int[2];//0 row 1 col
     private int[] curCityCrewPos = new int[2];
 
-    public Player(String name,Territory t){
+    public Player(String name,Territory ter){
         Path file = Paths.get("configFile.txt");
         Charset charset = Charset.forName("UTF-8");
         try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
@@ -67,12 +67,12 @@ public class Player {
             System.err.format("IOException: %s%n", x);
         }
         this.name = name;
-        this.territory = t;
-        Region[][] r = t.getRegions();
+        this.territory = ter;
+        Region[][] r = ter.getRegions();
         do{
 //            curCityCenterPos[0] = (int) (((Math.random()*100)%t.getRows())+1);
             if(name.equals("Player1"))curCityCenterPos[0] = (int) (3+1);
-            else curCityCenterPos[0] = (int) (0+1);
+            else curCityCenterPos[0] = (int) (1+1);
 //            curCityCenterPos[1] = (int) (((Math.random()*100)%t.getCols())+1);
             if(name.equals("Player1"))curCityCenterPos[1] = (int) (4+1);
             else curCityCenterPos[1] = (int) (4+1);
@@ -427,6 +427,120 @@ public class Player {
                 }
             }
         }
+    }
+    public void shoot(double damage, Direction direction) {
+        Region[][] r = territory.getRegions() ;
+        int crewPos0 = curCityCrewPos[0];
+        int crewPos1 = curCityCrewPos[1];
+        int attackLand[] = new int[2];
+        if(budget-damage-1<0){
+            return;
+        }else{
+            if(direction.equals(Direction.up)){
+                moveNoCost(Direction.up);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
+
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }else if(direction.equals(Direction.upright)){
+                moveNoCost(Direction.upright);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
+
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }else if(direction.equals(Direction.downright)){
+                moveNoCost(Direction.downright);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
+
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }else if(direction.equals(Direction.down)){
+                moveNoCost(Direction.down);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
+
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }else if(direction.equals(Direction.downleft)){
+                moveNoCost(Direction.downleft);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
+
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }else{
+                moveNoCost(Direction.upleft);
+                attackLand[0] = curCityCrewPos[0];
+                attackLand[1] = curCityCrewPos[1];
+                curCityCrewPos[0] = crewPos0;
+                curCityCrewPos[1] = crewPos1;
+                if(r[attackLand[0]-1][attackLand[1]-1].getDep()-damage<1) {
+                    r[attackLand[0]-1][attackLand[1]-1].setDep(0);
+                    r[attackLand[0]-1][attackLand[1]-1].freeOwner();
+                    if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
+                        r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        //
+                    }
+
+                }else{
+                    r[attackLand[0]-1][attackLand[1]-1].withdrawn(damage);
+                }
+            }
+        }
+        budget-=(damage+1);
     }
     private void moveNoCost(Direction direction){
         if(direction.equals(Direction.up)){

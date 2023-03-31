@@ -1,3 +1,6 @@
 x1 = currow y1 = curcol
-move down
+move up
+shoot up 50
+move up
+m = deposit
 xb = currow yb = curcol
