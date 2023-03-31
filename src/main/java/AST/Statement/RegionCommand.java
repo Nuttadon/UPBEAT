@@ -24,23 +24,9 @@ public class RegionCommand implements Statement {
 
     public boolean eval(Player player) throws EvalError {
         if(action.equals(Command.invest)){ // invest command
-//            if(player.getBudget() < player.territory().FEE_CHARGE()) return false;
-//            player.subBudget(player.territory().FEE_CHARGE());
-//
-//            double cost = this.expression.eval(player);
-//            if(player.getBudget() < cost) return true;
-//            player.cityCrew.owner = player;
-//            player.cityCrew.addDeposit(cost);
-//            player.subBudget(cost);
+            player.invest(expression.eval(player));
         }else{ // collect command
-//            if(player.getBudget() < player.territory().FEE_CHARGE()) return false;
-//            player.subBudget(player.territory().FEE_CHARGE());
-//
-//            double withdraw = this.expression.eval(player);
-//            if(player.cityCrew.getDeposit() < withdraw) return true;
-//            player.cityCrew.subDeposit(withdraw);
-//            if(player.cityCrew.getDeposit() < 1) player.cityCrew.loseRegion(player);
-//            player.addBudget(withdraw);
+            player.collect(expression.eval(player));
         }
         return true;
     }

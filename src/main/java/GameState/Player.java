@@ -130,6 +130,10 @@ public class Player {
         System.out.println(s.toString());
         construction_Plan.eval(this);
     }
+
+    public void done() {
+        //do something
+    }
     public int opponent() {
         Region[][] r = territory.getRegions() ;
         int distance = 0;
@@ -447,7 +451,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
-                        //
+                        //endgame
                     }
 
                 }else{
@@ -464,7 +468,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
-                        //
+                        //endgame
                     }
 
                 }else{
@@ -481,7 +485,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
-                        //
+                        //endgame
                     }
 
                 }else{
@@ -498,7 +502,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
-                        //
+                        //endgame
                     }
 
                 }else{
@@ -515,7 +519,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
-                        //
+                        //endgame
                     }
 
                 }else{
@@ -532,7 +536,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
-                        //
+                        //endgame
                     }
 
                 }else{
@@ -541,6 +545,52 @@ public class Player {
             }
         }
         budget-=(damage+1);
+    }
+    public void invest(double amount) {
+        Region[][] r = territory.getRegions() ;
+        if(budget-amount-1>=0){
+            if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()==null&&checkAdjacentLand()) {
+                r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].deposit(amount);
+                r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].conquer(this);
+                budget-=(amount+1);
+            }else if(itMyCity()){
+                r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].deposit(amount);
+                budget-=(amount+1);
+            }else{
+                budget-=1;
+            }
+        }else{
+            if(budget-1<0) {
+                done();
+            }
+            else budget-=1;
+        }
+
+    }
+    public void collect(double amount) {
+        Region[][] r = territory.getRegions() ;
+        if(budget-1>=0){
+            if(itMyCity() &&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep()>=amount) {
+                r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].withdrawn(amount);
+                if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getDep()==0){
+                    r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].freeOwner();
+                    if(r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].equals(curCityCenter)){
+                        r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].freeCityCenter();
+                        curCityCenter = null;
+                    }
+                }
+                budget+=amount;
+                budget-=1;
+            }else{
+                budget-=1;
+            }
+        }else{
+            if(budget-1<0) {
+                done();
+            }
+            else budget-=1;
+        }
+
     }
     private void moveNoCost(Direction direction){
         if(direction.equals(Direction.up)){
@@ -623,5 +673,40 @@ public class Player {
                 }
             }
         }
+    }
+    private boolean itMyCity(){
+        Region[][] r = territory.getRegions() ;
+        return r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner()!=null&&r[curCityCrewPos[0]-1][curCityCrewPos[1]-1].getOwner().equals(this);
+    }
+    private boolean checkAdjacentLand(){
+        Region[][] r = territory.getRegions() ;
+        int crewPos0 = curCityCrewPos[0];
+        int crewPos1 = curCityCrewPos[1];
+        boolean adjacentLand = false;
+        moveNoCost(Direction.up);
+        if(itMyCity())adjacentLand = true;
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        moveNoCost(Direction.upright);
+        if(itMyCity())adjacentLand = true;
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        moveNoCost(Direction.downright);
+        if(itMyCity())adjacentLand = true;
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        moveNoCost(Direction.down);
+        if(itMyCity())adjacentLand = true;
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        moveNoCost(Direction.downleft);
+        if(itMyCity())adjacentLand = true;
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        moveNoCost(Direction.upleft);
+        if(itMyCity())adjacentLand = true;
+        curCityCrewPos[0] = crewPos0;
+        curCityCrewPos[1] = crewPos1;
+        return adjacentLand;
     }
 }

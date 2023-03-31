@@ -22,6 +22,7 @@ public class Main {
         System.out.println(t.players[0].variables.get("xb"));
         System.out.println(t.players[0].variables.get("yb"));
         System.out.println(t.players[0].variables.get("m"));
+        System.out.println(t.players[0].variables.get("n"));
 
     }
 }
