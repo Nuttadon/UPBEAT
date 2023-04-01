@@ -2,15 +2,9 @@ package com.example.demo;
 
 import com.example.demo.Exception.EvalError;
 import com.example.demo.Exception.SyntaxError;
-import com.example.demo.GameState.PlanTimer;
 import com.example.demo.GameState.Territory;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Main {

@@ -6,6 +6,7 @@ import com.example.demo.Exception.*;
 import com.example.demo.Parser.StatementParser;
 import com.example.demo.Tokenizer.Tokenizer;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -14,9 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Scanner;
 
 public class Player {
     private String name;
@@ -27,12 +26,21 @@ public class Player {
     private double budget;
     private int intPlanMin;
     private int intPlanSec;
-    private int planRevMin;
-    private int planRevSec;
+    private int intElapsedTime;
+    private String intseconds_string ;
+    private String intminutes_string ;
+    private Timer intTimer;
+    private int revPlanMin;
+    private int revPlanSec;
+    private int revElapsedTime;
+    private String revseconds_string ;
+    private String revminutes_string ;
+    private Timer revTimer;
     private int revCost;
     private int initCenterDep;
     private int[] curCityCenterPos = new int[2];//0 row 1 col
     private int[] curCityCrewPos = new int[2];
+    private Thread timer;
 
     public Player(String name,Territory ter){
         Path file = Paths.get("configFile.txt");
@@ -54,10 +62,10 @@ public class Player {
                     initCenterDep = Integer.parseInt(line);
                 }if(line.contains("plan_rev_min")) {
                     line = line.replace("plan_rev_min=","");
-                    planRevMin = Integer.parseInt(line);
+                    revPlanMin = Integer.parseInt(line);
                 }if(line.contains("plan_rev_sec")) {
                     line = line.replace("plan_rev_sec=","");
-                    planRevSec = Integer.parseInt(line);
+                    revPlanSec = Integer.parseInt(line);
                 }if(line.contains("rev_cost")) {
                     line = line.replace("rev_cost=","");
                     revCost = Integer.parseInt(line);
@@ -83,6 +91,31 @@ public class Player {
         r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].deposit(initCenterDep);
         curCityCrewPos[0] = curCityCenterPos[0];
         curCityCrewPos[1] = curCityCenterPos[1];
+
+             intElapsedTime = (intPlanMin*60000)+(intPlanSec*1000);
+            intseconds_string = String.format("%02d",intPlanSec);
+            intminutes_string = String.format("%02d",intPlanMin);
+
+            intTimer = new Timer(1000, e -> {
+           intElapsedTime=intElapsedTime-1000;
+           intPlanMin = (intElapsedTime/60000)%60;
+           intPlanSec = (intElapsedTime/1000)%60;
+           intseconds_string = String.format("%02d",intPlanSec);
+           intminutes_string = String.format("%02d",intPlanMin);
+           System.out.println(intminutes_string+":"+intseconds_string);
+       });
+        revElapsedTime = (revPlanMin*60000)+(revPlanSec*1000);
+        revseconds_string = String.format("%02d",revPlanSec);
+        revminutes_string = String.format("%02d",revPlanMin);
+
+        revTimer = new Timer(1000, e -> {
+            revElapsedTime=revElapsedTime-1000;
+            revPlanMin = (revElapsedTime/60000)%60;
+            revPlanSec = (revElapsedTime/1000)%60;
+            revseconds_string = String.format("%02d",revPlanSec);
+            revminutes_string = String.format("%02d",revPlanMin);
+            System.out.println(revminutes_string+":"+revseconds_string);
+        });
     }
     public Territory getTerritory(){
         return territory;
@@ -746,5 +779,20 @@ public class Player {
         curCityCrewPos[0] = crewPos0;
         curCityCrewPos[1] = crewPos1;
         return adjacentLand;
+    }
+
+    public void intCDstart(){
+        intTimer.start();
+    }
+
+    public void intCDstop(){
+        intTimer.stop();
+    }
+    public void revCDstart(){
+        revTimer.start();
+    }
+
+    public void revCDstop(){
+        revTimer.stop();
     }
 }
