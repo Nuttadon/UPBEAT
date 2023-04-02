@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Territory {
-    private boolean curPlayerTurn;
+    private int curPlayerTurn;
     private int cols;
     private int rows;
     private int curTurn;
@@ -52,8 +52,8 @@ public class Territory {
         players[1] = new Player("Player2",this);
 
         curTurn = 1;
-        if(Math.random()>0.5) curPlayerTurn = true;
-        else curPlayerTurn = false;
+        if(Math.random()>0.5) curPlayerTurn = 0;
+        else curPlayerTurn = 1;
     }
 
     public int getRows(){
@@ -67,23 +67,18 @@ public class Territory {
     public Region[][] getRegions(){
         return regions;
     }
-    public Player[] getPlayers(){
-        return players;
-    }
 
     public double getMaxDep() {
         double m = maxDeposit;
         return m;
     }
-    public double getIntPercentage() {
-        double p = initPercent;
-        return p;
-    }
-    public void winCheck() {
-
+    public int winCheck() {
+        if(players[0].curCityCenter==null) return 1;//player 1 loses
+        else if(players[1].curCityCenter==null)return 2;//player loses
+        else return 0;//no one loses
     }
     public void nextTurn() {
-        curPlayerTurn = !curPlayerTurn;
+        curPlayerTurn = (curPlayerTurn+1)%2;
         curTurn++;
         calculatePct();
     }
@@ -100,8 +95,9 @@ public class Territory {
         }
     }
 
-    public boolean getWhoTurn(){
-        return curPlayerTurn;
+    public String getWhoTurn(){
+        String s = players[curPlayerTurn].getName();
+        return s;
     }
 
     public int getTurn(){

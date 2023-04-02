@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,7 +41,6 @@ public class Player {
     private int initCenterDep;
     private int[] curCityCenterPos = new int[2];//0 row 1 col
     private int[] curCityCrewPos = new int[2];
-    private Thread timer;
 
     public Player(String name,Territory ter){
         Path file = Paths.get("configFile.txt");
@@ -79,11 +79,11 @@ public class Player {
         Region[][] r = ter.getRegions();
         do{
 //            curCityCenterPos[0] = (int) (((Math.random()*100)%t.getRows())+1);
-            if(name.equals("Player1"))curCityCenterPos[0] = (int) (3+1);
-            else curCityCenterPos[0] = (int) (1+1);
+            if(name.equals("Player1"))curCityCenterPos[0] = 3+1;
+            else curCityCenterPos[0] = 1+1;
 //            curCityCenterPos[1] = (int) (((Math.random()*100)%t.getCols())+1);
-            if(name.equals("Player1"))curCityCenterPos[1] = (int) (4+1);
-            else curCityCenterPos[1] = (int) (4+1);
+            if(name.equals("Player1"))curCityCenterPos[1] = 4+1;
+            else curCityCenterPos[1] = 4+1;
             curCityCenter = r[curCityCenterPos[0]-1][curCityCenterPos[1]-1];
         }while(curCityCenter.getOwner()!=null);
         r[curCityCenterPos[0]-1][curCityCenterPos[1]-1].conquer(this);
@@ -116,6 +116,10 @@ public class Player {
             revminutes_string = String.format("%02d",revPlanMin);
             System.out.println(revminutes_string+":"+revseconds_string);
         });
+
+    }
+    public  String getName(){
+        return  name;
     }
     public Territory getTerritory(){
         return territory;
@@ -136,12 +140,13 @@ public class Player {
         return r[curCityCrewPos[0]-1][curCityCrewPos[1]-1];
     }
     private void readPlan() throws IOException, SyntaxError {
+        revTimer.stop();
         StringBuilder sb = new StringBuilder();
         String player ;
         if(name.equals("Player1")) player = "player1Plan.txt";
         else player = "player2Plan.txt";
         Path file = Paths.get(player);
-        Charset charset = Charset.forName("UTF-8");
+        Charset charset = StandardCharsets.UTF_8;
         try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
             String line = null;
             while ((line = reader.readLine()) != null) {
@@ -165,6 +170,7 @@ public class Player {
     }
 
     public void initPlan(String s){
+        intTimer.stop();
         String player ;
         if(name.equals("Player1")) player = "player1Plan.txt";
         else player = "player2Plan.txt";
@@ -191,6 +197,7 @@ public class Player {
             }
             budget-=revCost;
         }
+        revTimer.stop();
     }
     public int opponent() {
         Region[][] r = territory.getRegions() ;
@@ -512,6 +519,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        r[attackLand[0]-1][attackLand[1]-1].getOwner().losesTheGame();
                         //endgame
                     }
 
@@ -529,6 +537,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        r[attackLand[0]-1][attackLand[1]-1].getOwner().losesTheGame();
                         //endgame
                     }
 
@@ -546,6 +555,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        r[attackLand[0]-1][attackLand[1]-1].getOwner().losesTheGame();
                         //endgame
                     }
 
@@ -563,6 +573,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        r[attackLand[0]-1][attackLand[1]-1].getOwner().losesTheGame();
                         //endgame
                     }
 
@@ -580,6 +591,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        r[attackLand[0]-1][attackLand[1]-1].getOwner().losesTheGame();
                         //endgame
                     }
 
@@ -597,6 +609,7 @@ public class Player {
                     r[attackLand[0]-1][attackLand[1]-1].freeOwner();
                     if(r[attackLand[0]-1][attackLand[1]-1].getCityCenterOwner()!=null) {
                         r[attackLand[0]-1][attackLand[1]-1].freeCityCenter();
+                        r[attackLand[0]-1][attackLand[1]-1].getOwner().losesTheGame();
                         //endgame
                     }
 
@@ -785,14 +798,26 @@ public class Player {
         intTimer.start();
     }
 
-    public void intCDstop(){
-        intTimer.stop();
-    }
     public void revCDstart(){
         revTimer.start();
     }
 
-    public void revCDstop(){
-        revTimer.stop();
+    public String[] getIntTime(){
+        String[] t = new String[2];
+        t[0] = intminutes_string;
+        t[1] = intseconds_string;
+        return t;
     }
+
+    public String[] getRevTime(){
+        String[] t = new String[2];
+        t[0] = revminutes_string;
+        t[1] = revseconds_string;
+        return t;
+    }
+     public void losesTheGame(){
+        curCityCenter = null;
+     }
+
+
 }
