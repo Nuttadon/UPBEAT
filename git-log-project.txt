@@ -1,0 +1,324 @@
+* commit 5f0e9b77becdcb4871b5f3b2e6d769b619a6dc52
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sun Apr 2 19:36:02 2023 +0700
+| 
+|     Server method and interface implemented
+| 
+* commit 130481482e64038216724c7251d6750534a72f02
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sat Apr 1 23:45:44 2023 +0700
+| 
+|     Testing timer
+| 
+* commit 1e5b6f56510eeb4ed2a450b6ce2a41b727b17fe4
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sat Apr 1 23:44:51 2023 +0700
+| 
+|     Add timer for plan rev and int plan using Timer runnable
+| 
+* commit 804fada4f6fb7759e4bf6baa8f2052f608161bf3
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sat Apr 1 19:50:20 2023 +0700
+| 
+|     Add WebSocket properties to UPBEAT to get ready for handshake with frontend
+| 
+* commit 8d7975eea611d8250959de4a761e34551ffcaa67
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Fri Mar 31 22:35:24 2023 +0700
+| 
+|     Continue working and fixes on Server side
+| 
+* commit 263b1a6ac6151561d70d1db5b5f5b4897b60de0f
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Fri Mar 31 22:24:28 2023 +0700
+| 
+|     Add replan to wrok with txt file
+| 
+* commit 6e812df14f33347f6c0224be729bb6eb2cdc58eb
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Fri Mar 31 22:15:12 2023 +0700
+| 
+|     Fix Region's cmd and andd relocate cmd
+| 
+* commit 713488d9b10e05e5cff7d03fdbcfd7a9fbe63f51
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Fri Mar 31 21:40:27 2023 +0700
+| 
+|     Region's cmd added and testedd
+| 
+* commit 97cb9745adceee8f256e453ecc0dd787676341db
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Fri Mar 31 21:32:25 2023 +0700
+| 
+|     Shoot Cmd rework and test
+| 
+* commit 3202d37908b041376a57c192f2fd90d573d4f415
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Fri Mar 31 20:47:44 2023 +0700
+| 
+|     Add move command back and its work fine
+| 
+* commit 4cbef2a77de9d6ab04a1e4d9a4ed6d09ddf69e25
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sun Mar 26 23:59:49 2023 +0700
+| 
+|     Parser hard test
+| 
+* commit c2ed307982f25ec15b4c70660428dc81029b7de6
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sun Mar 26 23:36:07 2023 +0700
+| 
+|     Make opponent and nearby to work with the new Parser
+| 
+* commit ed4fd67172f13de890be14584fe340ea65a9784f
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sun Mar 26 21:13:14 2023 +0700
+| 
+|     rework on Parser
+| 
+* commit f8cec63093c1b9591de6ad67bb71f96689b2a55e
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Mon Mar 13 20:23:27 2023 +0700
+| 
+|     Update git log
+| 
+* commit 3e57ed67c4b78a248c00d9b29333c99673854002
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Mon Mar 13 17:44:42 2023 +0700
+| 
+|     Concept Error Found in findShortestPath
+| 
+* commit 994f286c8b61bfbc08f90aad07cea461134991e4
+| Author: Nuttadon <90751088+Nuttadon@users.noreply.github.com>
+| Date:   Mon Mar 13 00:18:23 2023 +0700
+| 
+|     Update README.md
+|     
+|     Readjust meeting note
+| 
+* commit 35dbf7202bfc995ec01e4d09c731cc91c5c480f0
+| Author: Nuttadon <90751088+Nuttadon@users.noreply.github.com>
+| Date:   Mon Mar 13 00:17:49 2023 +0700
+| 
+|     Update README.md
+|     
+|     backcap 2 meeting occurence
+| 
+* commit ad2bafb833c59c82d4b0f019ebc7e486ad250d2a
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Mon Mar 13 00:10:13 2023 +0700
+| 
+|     Add percentage calculation for each region and doing some Model for Spring
+| 
+* commit cc41bbc96b04b51014d22522d953b5ef38d98a62
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sun Mar 12 21:19:38 2023 +0700
+| 
+|     Add Special variables for Players and do a update by Statement
+| 
+* commit aae1d34927c16bb608541ec464a42127eb4d060c
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sun Mar 12 15:47:26 2023 +0700
+| 
+|     fillup shoot method,  add Controller and Model for frontend implementation
+| 
+* commit b369a2241bf8d7ddf435031328030f0739699677
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sat Mar 11 23:40:52 2023 +0700
+| 
+|     fix invest and collect , add moveWithNoCost Note: shoot unfinished
+| 
+* commit 88f32b5750eb8b6bc0819d034fee07985f808fbb
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sat Mar 11 17:52:52 2023 +0700
+| 
+|     nearby output fix to match the require ment
+| 
+* commit 4471f61951155076afaabec025eacc500be9143f
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sat Mar 11 17:32:32 2023 +0700
+| 
+|     config opponet method to show lowest direction if multiple enermy are in the same distance
+| 
+* commit aedc9106c8be8fcf51e0b62fafd3ce5c56e9c9d1
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sat Mar 11 17:23:42 2023 +0700
+| 
+|     nearby function implemented
+| 
+* commit d109f035c4e5947a8263a34a6e6a2f1e4b94545e
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Thu Mar 9 01:39:51 2023 +0700
+| 
+|     PlayerClass oppoment method indept fix
+| 
+* commit 1b1424fe47dff997369199a8a19d710a1f0730be
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Mar 8 23:57:15 2023 +0700
+| 
+|     Player relocate concept and doing done method
+| 
+* commit 4107834269033b39af1f7a602ab6b097bfb17897
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Mar 8 23:02:06 2023 +0700
+| 
+|     PlayerClass fix move command to satisfy the grid condition
+| 
+* commit b980cba83ecb380faab1098c3cb7694a74317890
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Mar 8 22:01:15 2023 +0700
+| 
+|     Evaluator merge with PlayerClass
+| 
+* commit 12362e43122149a14bf5911d56acc844017a18d5
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Mar 8 20:09:56 2023 +0700
+| 
+|     Rework on board creating and fix some player status Note: reduce player to 2 player for Frontend covinience
+| 
+* commit 61a89d5dabe17572e2cd4a6cf1656c75630c8e69
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Mar 8 17:14:38 2023 +0700
+| 
+|     RegionClass configuring and rework
+| 
+* commit 0bee3bcce44fdddd1b778a2e1163fd75391eb6ba
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Mar 8 16:08:42 2023 +0700
+| 
+|     PlayerClass configuring and rework
+| 
+* commit ff0cf6ff3ac482a3b7fbf4608a5ede332624c637
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sun Mar 5 21:02:57 2023 +0700
+| 
+|     version catch up and Main config
+| 
+* commit 3cb1178ffb1e467ea5b172bf1efa53580b673e4b
+| Author: BezTTTT <Best_1614@hotmail.com>
+| Date:   Wed Mar 1 19:41:30 2023 +0700
+| 
+|     regionClass adjust
+| 
+* commit aaa754a6b78531782612b77600f2cf20032d17da
+| Author: BezTTTT <Best_1614@hotmail.com>
+| Date:   Tue Feb 28 20:56:20 2023 +0700
+| 
+|     basic Region and Territory
+| 
+* commit 0e1e7b5abc32fa3065cc5092adf37a685bbfd01d
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sun Feb 26 13:12:35 2023 +0700
+| 
+|     some config / while in while loop little fix
+| 
+* commit 8dfed3eb367f9f91377499ef28ed15c9ec9c87f1
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sun Feb 26 03:38:07 2023 +0700
+| 
+|     else loop bug fix / still some bug with while loop
+| 
+* commit f582fe664d68f5fcc76c6efbd3b750ed2e3adbe7
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Sun Feb 26 02:38:46 2023 +0700
+| 
+|     fix while loop , if and {} but still some hidden bug with {} that the parser wont care about it
+| 
+* commit 4328b5f910f8191184f9bda79b2086eec4aa129b
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Thu Feb 23 23:28:36 2023 +0700
+| 
+|     fix some testcases and redo git log
+| 
+* commit b0c61b432344dbfdfd4081a8053918330113b825
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Thu Feb 23 22:15:51 2023 +0700
+| 
+|     add commit log
+|   
+*   commit f8cdfacb039dd186ad473fe11848e816299aa07e
+|\  Merge: efcc982 9fac1b7
+| | Author: BezTTTT <Best_1614@hotmail.com>
+| | Date:   Thu Feb 23 21:22:30 2023 +0700
+| | 
+| |     Merge remote-tracking branch 'origin/master'
+| | 
+| * commit 9fac1b711cfd387b9969c13244b90c9372a4b8b5
+| | Author: Ixac <90751114+Ixac@users.noreply.github.com>
+| | Date:   Thu Feb 23 19:43:13 2023 +0700
+| | 
+| |     Update README.md
+| | 
+* | commit efcc98231306b3efffc676742c812c692d757737
+| | Author: BezTTTT <Best_1614@hotmail.com>
+| | Date:   Thu Feb 23 21:18:26 2023 +0700
+| | 
+| |     testcase append
+| | 
+* | commit a4acc8ee6efc58ada43bddb3717c783c8f84b544
+|/  Author: BezTTTT <Best_1614@hotmail.com>
+|   Date:   Thu Feb 23 21:18:06 2023 +0700
+|   
+|       ExprParser Isnumber update
+| 
+* commit 0d4e31bcf4a1b66f4842e283822b670d05748da7
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Thu Feb 23 15:49:17 2023 +0700
+| 
+|     fix while within while //note : }} is still a problem
+| 
+* commit b7277dcaacbbfbbf2b80381f29f052c442d09c6e
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Thu Feb 23 10:44:51 2023 +0700
+| 
+|     fix BlockStatement , clearState and IfStatement
+| 
+* commit 481bad7b641fd3f4319dc6517c7918fc1db630e1
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Thu Feb 23 09:47:02 2023 +0700
+| 
+|     some cases of while
+| 
+* commit 034b2e398ff3ffba1f6c1cd3536416421aded545
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Feb 22 23:20:45 2023 +0700
+| 
+|     3rd try
+| 
+* commit ac43c9dfa71af5a44b612d89c89a10c54c7f4bc7
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Feb 22 23:18:11 2023 +0700
+| 
+|     3rd try
+| 
+* commit afd10c0034ae5ddffbfb1f3e30ae5120105202e5
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Feb 22 23:17:49 2023 +0700
+| 
+|     3rd try
+| 
+* commit d51dda5ca0310db8b4c0997b480019530642969c
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Feb 22 22:16:19 2023 +0700
+| 
+|     test commit
+| 
+* commit 3d7c7bd8b8bd5e98727c0ddccd2f7ffa185c02a8
+| Author: Nuttadon <90751088+Nuttadon@users.noreply.github.com>
+| Date:   Wed Feb 22 16:16:04 2023 +0700
+| 
+|     Create README.md
+|     
+|     file move from previous res
+| 
+* commit fa4a36486b7356857c404454f1ff1a374179e398
+| Author: Nuttadon <nuttadon_p@cmu.ac.th>
+| Date:   Wed Feb 22 16:12:01 2023 +0700
+| 
+|     test commit
+| 
+* commit 1665f98393c7ce5c7a0df8e858a1ff1f22460a0a
+  Author: Nuttadon <nuttadon_p@cmu.ac.th>
+  Date:   Wed Feb 22 16:06:09 2023 +0700
+  
+      Initial commit
